@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
-import { Hero } from '@/components/home/Hero';
+import { BrutalistHero } from '@/components/home/BrutalistHero';
 import { SignupCarousel } from '@/components/home/SignupCarousel';
-import { FeaturedCollections } from '@/components/home/FeaturedCollections';
-import { EnhancedTrendingCarousel } from '@/components/home/EnhancedTrendingCarousel';
+import { BrutalistFeaturedCollections } from '@/components/home/BrutalistFeaturedCollections';
+import { BrutalistTrendingCarousel } from '@/components/home/BrutalistTrendingCarousel';
 import { Collection, Product } from '@/lib/types';
 import { getFeaturedCollections, getTrendingProducts } from '@/lib/api';
 
@@ -15,25 +15,28 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Full-width Hero section */}
-      <Hero 
-        title="Redefine Your Style" 
-        subtitle="Discover our premium hat collection crafted with exceptional quality materials and attention to detail."
-        ctaText="Shop Now"
-        ctaLink="/collections"
-        imageUrl="/images/hats/placeholder1.jpg"
+      {/* Full-width Brutalist Hero section with carousel */}
+      <BrutalistHero 
+        title="BUCKET HATS" 
+        subtitle="Bold designs for the urban explorer. Limited drops, unlimited style."
+        ctaText="SHOP NOW"
+        ctaLink="/collection/bucket-hats"
       />
       
       {/* Full-width SignupCarousel directly below Hero */}
       <SignupCarousel />
       
-      {/* Full-width FeaturedCollections */}
-      <FeaturedCollections 
+      {/* Full-width Brutalist Featured Collections */}
+      <BrutalistFeaturedCollections 
+        title="SHOP BY STYLE"
         collections={collections} 
       />
 
-      {/* Enhanced Trending Carousel */}
-      <EnhancedTrendingCarousel products={trendingProducts} />
+      {/* Brutalist Trending Products Carousel */}
+      <BrutalistTrendingCarousel 
+        title="HOT RIGHT NOW"
+        products={trendingProducts} 
+      />
     </div>
   );
 }

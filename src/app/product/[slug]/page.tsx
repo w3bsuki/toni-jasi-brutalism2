@@ -87,7 +87,9 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 }
 
 export function generateStaticParams() {
-  return products.map((product) => ({
+  // Ensure we have a valid array of products with the slug property
+  const validProducts = Array.isArray(products) ? products.filter(product => product && product.slug) : [];
+  return validProducts.map((product) => ({
     slug: product.slug,
   }));
 } 

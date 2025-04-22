@@ -1,25 +1,23 @@
 import Link from "next/link";
-import { getAllProducts } from "@/lib/api";
+import { products } from "@/data/products";
 
-export default async function DebugProductsPage() {
-  const products = await getAllProducts();
+export default function DebugProductsPage() {
+  // Ensure products is an array
+  const productsList = Array.isArray(products) ? products : [];
   
-  // Log products for debugging
-  console.log("All products:", products.map(p => ({ id: p.id, name: p.name, slug: p.slug })));
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Available Products Debug</h1>
-      <p className="mb-4">Total products: {products.length}</p>
+      <p className="mb-4">Total products: {productsList.length}</p>
       
       <div className="grid gap-4">
-        {products.map((product) => (
+        {productsList.map((product) => (
           <div key={product.id} className="border p-4 rounded-md">
             <h2 className="font-bold">{product.name}</h2>
             <p className="font-mono text-sm">ID: {product.id}</p>
             <p className="font-mono text-sm">Slug: {product.slug}</p>
-            <p>Images: {product.images.length} available</p>
-            <p>First image: {product.images[0]?.substring(0, 30)}...</p>
+            <p>Images: {Array.isArray(product.images) ? product.images.length : 0} available</p>
+            <p>First image: {Array.isArray(product.images) && product.images[0] ? product.images[0].substring(0, 30) + '...' : 'No image'}</p>
             <div className="mt-2 flex gap-2">
               <Link 
                 href={`/product/${encodeURIComponent(product.slug)}`}

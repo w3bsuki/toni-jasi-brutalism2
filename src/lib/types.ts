@@ -28,7 +28,7 @@ export interface Product {
 
 export interface Collection {
   id: string;
-  title: string;
+  name: string;
   slug: string;
   description: string;
   image: string;

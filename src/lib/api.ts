@@ -52,35 +52,35 @@ export async function getFeaturedCollections(): Promise<Collection[]> {
   const featuredCollections: Collection[] = [
     {
       id: '1',
-      title: 'Summer Collection',
+      name: 'Summer Collection',
       slug: 'summer-collection',
       description: 'Stay cool and stylish with our summer hat collection.',
       image: '/images/collections/summer-collection.jpg',
-      products: []
+      products: [] // Ensure this is always an array
     },
     {
       id: '2',
-      title: 'Winter Essentials',
+      name: 'Winter Essentials',
       slug: 'winter-essentials',
       description: 'Keep warm with our premium winter hats.',
       image: '/images/collections/winter-collection.jpg',
-      products: []
+      products: [] // Ensure this is always an array
     },
     {
       id: '3',
-      title: 'Sport Caps',
+      name: 'Sport Caps',
       slug: 'sport-caps',
       description: 'Performance hats designed for athletes and sport enthusiasts.',
       image: '/images/collections/sport-collection.jpg',
-      products: []
+      products: [] // Ensure this is always an array
     },
     {
       id: '4',
-      title: 'Luxury Hats',
+      name: 'Luxury Hats',
       slug: 'luxury-hats',
       description: 'Exclusive designs using premium materials for discerning customers.',
       image: '/images/collections/luxury-collection.jpg',
-      products: []
+      products: [] // Ensure this is always an array
     }
   ];
   

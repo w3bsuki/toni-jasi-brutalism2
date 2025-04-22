@@ -1,7 +1,2 @@
-export interface Collection {
-  id: string;
-  name: string;
-  slug: string;
-  image: string;
-  description: string;
-} 
+// Re-export Collection type from lib/types
+export { Collection } from '@/lib/types'; 

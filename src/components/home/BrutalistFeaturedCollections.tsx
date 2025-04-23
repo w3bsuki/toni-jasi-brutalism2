@@ -17,7 +17,6 @@ export function BrutalistFeaturedCollections({
   collections = [],
 }: BrutalistFeaturedCollectionsProps) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
   
   useEffect(() => {
     setIsLoaded(true);
@@ -51,9 +50,9 @@ export function BrutalistFeaturedCollections({
         </h2>
       </div>
       
-      {/* Collections grid with brutalist styling */}
+      {/* Collections grid with brutalist styling - exactly 3 cards per row with optimized responsive layout */}
       <motion.div 
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto"
         variants={containerVariants}
         initial="hidden"
         animate={isLoaded ? "visible" : "hidden"}
@@ -63,51 +62,49 @@ export function BrutalistFeaturedCollections({
             key={collection.id}
             variants={itemVariants}
             transition={{ duration: 0.5 }}
-            onMouseEnter={() => setHoveredId(collection.id)}
-            onMouseLeave={() => setHoveredId(null)}
             className="group relative"
           >
-            {/* Collection card with thick border and off-kilter rotation */}
+            {/* Collection card with thick border and perfect hover animation */}
             <Link 
               href={`/collection/${collection.slug}`}
-              className="relative block h-[450px] border-4 border-white overflow-hidden transform hover:rotate-1 transition-transform"
+              className="relative block h-[400px] md:h-[450px] border-4 border-white hover:border-yellow-300 overflow-hidden transition-all duration-300 transform-gpu hover:-translate-y-2 hover:shadow-[0px_6px_0px_0px_rgba(0,0,0,0.9)] will-change-transform"
             >
-              {/* Image */}
+              {/* Image with fallback */}
               <div className="absolute inset-0 bg-gray-800">
                 <Image 
-                  src={collection.image} 
+                  src={collection.image || "/images/hats/placeholder1.jpg"} 
                   alt={collection.name}
                   fill
-                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500 opacity-90"
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500 ease-out scale-100 group-hover:scale-105 will-change-transform"
                 />
                 
-                {/* Harsh overlay */}
-                <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-0 transition-opacity"></div>
+                {/* Harsh overlay with smoother transition */}
+                <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-0 transition-opacity duration-300 ease-in-out"></div>
                 
-                {/* Diagonal stripes overlay */}
+                {/* Diagonal stripes overlay with hover effect */}
                 <div 
-                  className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,black_10px,black_20px)] opacity-20 mix-blend-multiply pointer-events-none"
+                  className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,black_10px,black_20px)] opacity-20 group-hover:opacity-5 mix-blend-multiply pointer-events-none transition-opacity duration-300"
                 ></div>
               </div>
               
-              {/* Collection information */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-white transform translate-y-[calc(100%-4rem)] group-hover:translate-y-0 transition-transform duration-300">
+              {/* Collection information - perfect animation with custom easing */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-white transform translate-y-[calc(100%-4.5rem)] group-hover:translate-y-0 transition-transform duration-400 ease-[cubic-bezier(0.16,1.1,0.3,1)] will-change-transform">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-2xl font-black uppercase text-black tracking-tighter">{collection.name}</h3>
-                  <div className="bg-black text-white p-2 border-2 border-black group-hover:bg-yellow-300 group-hover:text-black transition-colors">
+                  <h3 className="text-2xl font-black uppercase text-black tracking-tighter truncate pr-2">{collection.name}</h3>
+                  <div className="flex-shrink-0 bg-black text-white p-2 border-2 border-black transform rotate-0 group-hover:rotate-45 group-hover:bg-yellow-300 group-hover:text-black transition-all duration-300 ease-out will-change-transform">
                     <ArrowUpRight size={20} />
                   </div>
                 </div>
-                <p className="text-black font-mono text-sm mb-4 line-clamp-3">{collection.description}</p>
-                <div className="inline-block bg-black text-white px-4 py-2 font-bold tracking-tight uppercase">
+                <p className="text-black font-mono text-sm mb-4 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity duration-300">{collection.description}</p>
+                <div className="inline-block bg-black text-white px-4 py-2 font-bold tracking-tight uppercase transform translate-x-0 group-hover:translate-x-2 transition-all duration-300 ease-out will-change-transform hover:bg-yellow-300 hover:text-black border-2 border-black">
                   View Collection
                 </div>
               </div>
               
-              {/* Collection badge/sticker effect - appears at random rotation */}
+              {/* Collection badge/sticker effect - perfect animation */}
               {collection.badge && (
                 <div 
-                  className="absolute top-6 right-6 bg-yellow-300 text-black px-4 py-2 font-black text-xl uppercase tracking-tighter border-2 border-black transform rotate-[10deg] rounded-full z-10"
+                  className="absolute top-6 right-6 bg-yellow-300 text-black px-4 py-2 font-black text-xl uppercase tracking-tighter border-2 border-black transform rotate-[10deg] group-hover:rotate-[5deg] group-hover:scale-110 rounded-full z-10 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] will-change-transform"
                 >
                   {collection.badge}
                 </div>
@@ -121,10 +118,10 @@ export function BrutalistFeaturedCollections({
       <div className="flex justify-center mt-12">
         <Link 
           href="/collections" 
-          className="inline-flex items-center gap-2 text-white font-bold text-xl tracking-tight uppercase border-b-4 border-white hover:border-yellow-300 hover:text-yellow-300 transition-colors"
+          className="group inline-flex items-center gap-2 text-white font-bold text-xl tracking-tight uppercase border-b-4 border-white hover:border-yellow-300 hover:text-yellow-300 transition-colors duration-300"
         >
           View All Collections
-          <Plus size={20} />
+          <Plus size={20} className="transform group-hover:rotate-90 transition-transform duration-300" />
         </Link>
       </div>
     </section>

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import { BrutalistNavbar } from "@/components/layout/BrutalistNavbar";
+import { BrutalistFooter } from "@/components/layout/BrutalistFooter";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { CartProvider } from "@/hooks/useCart";
@@ -49,7 +49,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
-      <body className={`${inter.className} min-h-screen flex flex-col antialiased`}>
+      <body className={`${inter.className} min-h-screen flex flex-col antialiased bg-white`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -60,7 +60,7 @@ export default function RootLayout({
             <ClientInitScript />
             {/* Use Suspense boundaries for better loading experience */}
             <Suspense fallback={<div className="fixed top-0 w-full h-2 bg-primary/30 animate-pulse"></div>}>
-              <Header />
+              <BrutalistNavbar />
             </Suspense>
             
             <main className="flex-1">
@@ -71,7 +71,7 @@ export default function RootLayout({
             </main>
             
             <Suspense fallback={null}>
-              <Footer />
+              <BrutalistFooter />
             </Suspense>
             
             <Toaster />

@@ -151,6 +151,45 @@
       transform: translateX(200%);
     }
   }
+
+  /* Brutalist hover effect */
+  .brutalist-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .brutalist-hover:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 4px 4px 0 0 #000;
+  }
+  
+  /* Brutalist border effects */
+  .brutalist-border {
+    border: 4px solid #000;
+    box-shadow: 8px 8px 0 0 #000;
+  }
+  
+  .brutalist-border-yellow {
+    border: 4px solid #000;
+    box-shadow: 8px 8px 0 0 #FDE047;
+  }
+  
+  /* Brutalist typography */
+  .brutalist-title {
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+  }
+  
+  /* Brutalist angles */
+  .brutalist-rotate-1 {
+    transform: rotate(1deg);
+  }
+  
+  .brutalist-rotate-neg-1 {
+    transform: rotate(-1deg);
+  }
 }
 
 @layer base {
@@ -248,6 +287,37 @@
       rgba(0, 0, 0, 0.1) 20px
     );
   }
+
+  /* Brutalist zigzag pattern */
+  .zigzag-pattern {
+    background: 
+      linear-gradient(135deg, #000 25%, transparent 25%) -10px 0,
+      linear-gradient(225deg, #000 25%, transparent 25%) -10px 0,
+      linear-gradient(315deg, #000 25%, transparent 25%),
+      linear-gradient(45deg, #000 25%, transparent 25%);
+    background-size: 20px 20px;
+    background-color: transparent;
+  }
+
+  /* Brutalist grid pattern */
+  .grid-pattern {
+    background-size: 40px 40px;
+    background-color: transparent;
+    background-image: 
+      linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  }
+
+  /* Brutalist dot pattern */
+  .dot-pattern {
+    background-image: radial-gradient(#000 10%, transparent 11%),
+      radial-gradient(#000 10%, transparent 11%);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    background-repeat: repeat;
+    background-color: transparent;
+    opacity: 0.05;
+  }
 }
 
 @layer base {
@@ -267,4 +337,24 @@
 
 .animate-marquee {
   animation: marquee 30s linear infinite;
+}
+
+/* Brutalist hover animations */
+@keyframes brutalist-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.brutalist-bounce {
+  animation: brutalist-bounce 0.5s ease-in-out;
+}
+
+@keyframes brutalist-shake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-1deg); }
+  75% { transform: rotate(1deg); }
+}
+
+.brutalist-shake {
+  animation: brutalist-shake 0.3s ease-in-out;
 }

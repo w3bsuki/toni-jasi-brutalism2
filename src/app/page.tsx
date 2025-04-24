@@ -3,6 +3,8 @@ import { BrutalistHero } from '@/components/home/BrutalistHero';
 import { SignupCarousel } from '@/components/home/SignupCarousel';
 import { BrutalistFeaturedCollections } from '@/components/home/BrutalistFeaturedCollections';
 import { BrutalistTrendingCarousel } from '@/components/home/BrutalistTrendingCarousel';
+import { BrutalistLogoRibbon } from '@/components/home/BrutalistLogoRibbon';
+import { BrutalistTextMarquee } from '@/components/home/BrutalistTextMarquee';
 import { Collection, Product } from '@/lib/types';
 import { getFeaturedCollections, getTrendingProducts } from '@/lib/api';
 
@@ -26,10 +28,19 @@ export default async function Home() {
       {/* Full-width SignupCarousel directly below Hero */}
       <SignupCarousel />
       
+      {/* Brutalist Logo Ribbon */}
+      <BrutalistLogoRibbon />
+      
       {/* Full-width Brutalist Featured Collections */}
       <BrutalistFeaturedCollections 
         title="SHOP BY STYLE"
         collections={collections} 
+      />
+
+      {/* Brutalist Text Marquee */}
+      <BrutalistTextMarquee 
+        text={["LIMITED DROPS", "EXCLUSIVE ACCESS", "JOIN THE HAT GANG", "SHOP NOW"]} 
+        speed={50}
       />
 
       {/* Brutalist Trending Products Carousel */}

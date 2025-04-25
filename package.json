@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --no-lint --config next.config.ts",
+    "build": "next build --no-lint",
     "force-build": "node scripts/build-forced.mjs",
     "start": "next start",
     "lint": "next lint",
-    "analyze": "ANALYZE=true next build --config next.config.ts",
+    "analyze": "ANALYZE=true next build",
     "optimize-images": "next-image-export-optimizer"
   },
   "dependencies": {

@@ -1,127 +1,127 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { Package, Clock, PercentCircle, Star } from "lucide-react";
+import { useRef, useEffect } from 'react';
+import { motion, useAnimationFrame, useMotionValue } from 'framer-motion';
+import Link from 'next/link';
+import { 
+  ShoppingBag, 
+  Truck, 
+  Percent, 
+  RotateCcw,
+  Users,
+  Bookmark
+} from 'lucide-react';
 
 export function BrutalistSignupCarousel() {
-  const [isPaused, setIsPaused] = useState(false);
+  // References to track the carousel
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const baseVelocity = -1;
+  const isPaused = useRef(false);
+  const contentWidth = useRef(0);
   
-  // Items data with ХУЛИГАНКА branding
   const items = [
-    {
-      id: 1,
-      icon: <Star className="w-5 h-5" />,
-      text: "JOIN THE ХУЛИГАНКА GANG",
-      cta: {
-        text: "JOIN",
-        url: "/signup"
-      }
+    { 
+      icon: <Users className="w-5 h-5" />, 
+      text: "JOIN THE GANG", 
+      link: "/signup", 
+      highlight: true 
     },
-    {
-      id: 2,
-      icon: <Package className="w-5 h-5" />,
-      text: "FREE SHIPPING OVER $50",
-      cta: {
-        text: "SHOP",
-        url: "/collections"
-      }
+    { 
+      icon: <Truck className="w-5 h-5" />, 
+      text: "FREE SHIPPING", 
+      link: "/shipping" 
     },
-    {
-      id: 3,
-      icon: <PercentCircle className="w-5 h-5" />,
-      text: "GET 15% OFF YOUR FIRST ORDER",
-      cta: {
-        text: "CLAIM",
-        url: "/signup"
-      }
+    { 
+      icon: <Percent className="w-5 h-5" />, 
+      text: "10% OFF FIRST ORDER", 
+      link: "/discount" 
     },
-    {
-      id: 4,
-      icon: <Clock className="w-5 h-5" />,
-      text: "LIMITED DROPS EVERY FRIDAY",
-      cta: {
-        text: "VIEW",
-        url: "/collection/limited-edition"
-      }
+    { 
+      icon: <RotateCcw className="w-5 h-5" />, 
+      text: "30-DAY RETURNS", 
+      link: "/returns" 
+    },
+    { 
+      icon: <Bookmark className="w-5 h-5" />, 
+      text: "LIMITED DROPS", 
+      link: "/collections" 
+    },
+    { 
+      icon: <ShoppingBag className="w-5 h-5" />, 
+      text: "FREE STICKERS", 
+      link: "/stickers" 
     }
   ];
 
+  // Create duplicate sets of items for seamless looping
+  const duplicatedItems = [...items, ...items, ...items, ...items];
+  
+  // Calculate content width once on mount
+  useEffect(() => {
+    if (carouselRef.current) {
+      // Get width of a single set of items
+      const singleSetWidth = carouselRef.current.scrollWidth / 4;
+      contentWidth.current = singleSetWidth;
+      
+      // Start with x offset at exactly -1 set width for seamless loop
+      x.set(-singleSetWidth);
+    }
+  }, []);
+  
+  useAnimationFrame((t, delta) => {
+    if (isPaused.current || !carouselRef.current || contentWidth.current === 0) return;
+    
+    // Slower, smoother movement
+    const moveBy = baseVelocity * (delta / 15);
+    
+    // Update the motion value
+    x.set(x.get() + moveBy);
+    
+    // Reset when we've scrolled two content widths (one full loop)
+    // This creates a truly seamless infinite loop
+    if (x.get() <= -contentWidth.current * 2) {
+      x.set(x.get() + contentWidth.current);
+    }
+  });
+
+  function handleMouseEnter() {
+    isPaused.current = true;
+  }
+
+  function handleMouseLeave() {
+    isPaused.current = false;
+  }
+
   return (
     <div 
-      className="relative w-full border-y-4 border-black bg-yellow-300 py-3 overflow-hidden"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      className="bg-black border-b-4 border-white py-3 relative overflow-hidden"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <div className="carousel-container">
-        <div className={`carousel-track ${isPaused ? 'paused' : ''}`}>
-          {[...Array(8)].map((_, groupIndex) => (
-            <div key={`group-${groupIndex}`} className="inline-flex flex-nowrap">
-              {items.map((item) => (
-                <div key={`item-${groupIndex}-${item.id}`} className="inline-flex items-center mx-6 whitespace-nowrap flex-nowrap">
-                  {/* Left separator */}
-                  <div className="h-6 mx-3 border-r-2 border-black"></div>
-                  
-                  <div className="flex items-center mx-4">
-                    <div className="w-8 h-8 mr-3 flex items-center justify-center bg-black text-yellow-300">
-                      {item.icon}
-                    </div>
-                    <span className="text-black font-black text-sm tracking-tight uppercase">
-                      {item.text}
-                    </span>
-                  </div>
-                  
-                  <div className="mx-3">
-                    <Link 
-                      href={item.cta.url}
-                      className="relative overflow-hidden group"
-                    >
-                      <div className="px-4 py-1 font-black text-xs tracking-wider bg-black text-white border-2 border-black transform transition-all duration-300 ease-out group-hover:bg-yellow-300 group-hover:text-black group-hover:translate-y-[-2px] group-hover:translate-x-[-2px]">
-                        {item.cta.text}
-                      </div>
-                    </Link>
-                  </div>
-                  
-                  {/* Right separator */}
-                  <div className="h-6 mx-3 border-r-2 border-black"></div>
-                </div>
-              ))}
-            </div>
+      {/* Decorative elements */}
+      <div className="absolute bottom-0 right-1/4 w-8 h-[4px] bg-white"></div>
+      
+      <div className="overflow-hidden" ref={carouselRef}>
+        <motion.div 
+          className="flex whitespace-nowrap"
+          style={{ x }}
+        >
+          {duplicatedItems.map((item, i) => (
+            <Link 
+              href={item.link} 
+              key={i} 
+              className={`inline-flex items-center mx-8 text-white hover:text-yellow-300 transition-colors ${item.highlight ? 'font-black' : 'font-medium'}`}
+            >
+              <span className="bg-yellow-300 text-black p-2 mr-3">{item.icon}</span>
+              <span>{item.text}</span>
+              {item.highlight && (
+                <span className="ml-2 bg-yellow-300 text-black px-1 text-xs font-mono">NEW</span>
+              )}
+            </Link>
           ))}
-        </div>
+        </motion.div>
       </div>
-      
-      {/* Edge fade effects */}
-      <div className="absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-yellow-300 to-transparent z-10 pointer-events-none"></div>
-      <div className="absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-yellow-300 to-transparent z-10 pointer-events-none"></div>
-      
-      <style jsx>{`
-        .carousel-container {
-          overflow: hidden;
-          position: relative;
-          height: 42px;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        
-        .carousel-track {
-          display: inline-flex;
-          animation: marquee 120s linear infinite;
-          white-space: nowrap;
-          align-items: center;
-        }
-        
-        .carousel-track.paused {
-          animation-play-state: paused;
-        }
-        
-        @keyframes marquee {
-          from { transform: translateX(0); }
-          to { transform: translateX(-12.5%); }
-        }
-      `}</style>
     </div>
   );
 }

@@ -39,10 +39,10 @@ export function BrutalistLogoRibbon() {
   };
 
   return (
-    <section className="w-full py-12 px-6 bg-white">
+    <section className="w-full py-12 px-6 bg-black text-white">
       {/* Title with brutalist style */}
       <div className="max-w-7xl mx-auto mb-10 text-center">
-        <h3 className="inline-block text-2xl md:text-3xl font-black uppercase tracking-tighter relative">
+        <h3 className="inline-block text-2xl md:text-3xl font-black uppercase tracking-tighter relative text-white">
           BRANDS WE CARRY
           <div className="absolute h-3 w-4/5 bg-yellow-300 -bottom-1 left-1/2 -translate-x-1/2 z-0"></div>
         </h3>
@@ -55,7 +55,7 @@ export function BrutalistLogoRibbon() {
         initial="hidden"
         animate={isLoaded ? "visible" : "hidden"}
       >
-        <div className="flex flex-wrap md:flex-nowrap items-center justify-between py-5 md:py-8 border-t-4 border-b-4 border-black px-4">
+        <div className="flex flex-wrap md:flex-nowrap items-center justify-between py-5 md:py-8 border-t-4 border-b-4 border-white px-4">
           {brands.map((brand, index) => (
             <React.Fragment key={brand}>
               <motion.div 
@@ -64,12 +64,12 @@ export function BrutalistLogoRibbon() {
                 transition={{ duration: 0.3 }}
               >
                 <div className={`w-24 h-16 md:w-32 md:h-20 relative ${brand !== "ХУЛИГАНКА" ? "grayscale hover:grayscale-0" : ""} transition-all duration-300 flex items-center justify-center`}>
-                  <div className={`w-full h-full ${brand === "ХУЛИГАНКА" ? "text-yellow-500" : "text-black hover:text-yellow-500"} transition-colors duration-300 flex items-center justify-center`}>
+                  <div className={`w-full h-full ${brand === "ХУЛИГАНКА" ? "text-yellow-400" : "text-white hover:text-yellow-400"} transition-colors duration-300 flex items-center justify-center`}>
                     <div className={`flex items-center font-bold text-lg md:text-xl uppercase tracking-tighter text-center ${brand !== "ХУЛИГАНКА" ? "line-through" : ""}`}>
                       {brand}
                       {brand === "ХУЛИГАНКА" && (
                         <span className="inline-flex ml-2">
-                          <CheckCircle className="w-6 h-6 text-black fill-yellow-400 stroke-[3px]" />
+                          <CheckCircle className="w-6 h-6 text-white fill-yellow-400 stroke-[3px]" />
                         </span>
                       )}
                     </div>
@@ -79,7 +79,7 @@ export function BrutalistLogoRibbon() {
               
               {/* Add separators between logos */}
               {index < brands.length - 1 && (
-                <span className="hidden md:block h-8 w-1 bg-black transform rotate-12"></span>
+                <span className="hidden md:block h-8 w-1 bg-white transform rotate-12"></span>
               )}
             </React.Fragment>
           ))}

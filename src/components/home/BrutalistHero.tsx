@@ -1,29 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-
-// Hero carousel images
-const CAROUSEL_IMAGES = [
-  {
-    src: "/images/hats/placeholder.jpg",
-    alt: "Urban street style with bucket hat",
-    caption: "STREET CRED",
-  },
-  {
-    src: "/images/hats/placeholder1.jpg", 
-    alt: "Festival vibes with bucket hat",
-    caption: "FESTIVAL READY",
-  },
-  {
-    src: "/images/hats/placeholder.jpg",
-    alt: "Skate park with bucket hat",
-    caption: "SKATE CULTURE",
-  }
-];
 
 interface BrutalistHeroProps {
   title?: string;
@@ -32,156 +12,266 @@ interface BrutalistHeroProps {
   ctaLink?: string;
 }
 
-export function BrutalistHero({
-  title = "ХУЛИГАНКА",
-  subtitle = "Bold designs for the streets.",
-  ctaText = "SHOP NOW",
-  ctaLink = "/collections/bucket-hats"
+export function BrutalistHero({ 
+  title = "ХУЛИГАНКА", 
+  subtitle = "Limited drops, unlimited style.", 
+  ctaText = "SHOP NOW", 
+  ctaLink = "/shop" 
 }: BrutalistHeroProps) {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [autoplay, setAutoplay] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Handle carousel navigation
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev === CAROUSEL_IMAGES.length - 1 ? 0 : prev + 1));
-  }, []);
-
-  const prevSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev === 0 ? CAROUSEL_IMAGES.length - 1 : prev - 1));
-  }, []);
-
-  // Set up autoplay
+  // Skip loading animation in development mode hot reloads
   useEffect(() => {
-    setIsLoaded(true);
+    const inDevMode = process.env.NODE_ENV === 'development';
+    const skipAnimation = sessionStorage.getItem('skipHeroAnimation') === 'true';
     
-    let interval: NodeJS.Timeout;
-    if (autoplay) {
-      interval = setInterval(nextSlide, 5000);
+    if (inDevMode && skipAnimation) {
+      setIsLoading(false);
+      return;
     }
     
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [autoplay, nextSlide]);
+    if (inDevMode) {
+      sessionStorage.setItem('skipHeroAnimation', 'true');
+    }
 
-  // Pause autoplay on hover
-  const handleMouseEnter = () => setAutoplay(false);
-  const handleMouseLeave = () => setAutoplay(true);
+    // Simulate loading progress
+    const interval = setInterval(() => {
+      setLoadingProgress(prev => {
+        const newProgress = prev + Math.random() * 15;
+        if (newProgress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 500);
+          return 100;
+        }
+        return newProgress;
+      });
+    }, 200);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const images = useMemo(() => [
+    {
+      src: "/images/hats/placeholder.jpg",
+      alt: "Brutalist Hat 1",
+      caption: "01"
+    },
+    {
+      src: "/images/hats/placeholder1.jpg",
+      alt: "Brutalist Hat 2",
+      caption: "02"
+    },
+    {
+      src: "/images/hats/placeholder.jpg",
+      alt: "Brutalist Hat 3",
+      caption: "03"
+    },
+    {
+      src: "/images/hats/placeholder1.jpg",
+      alt: "Brutalist Hat 4",
+      caption: "04"
+    }
+  ], []);
+
+  const nextImage = useCallback(() => {
+    setCurrentIndex(prev => (prev + 1) % images.length);
+  }, [images.length]);
+
+  const prevImage = useCallback(() => {
+    setCurrentIndex(prev => (prev - 1 + images.length) % images.length);
+  }, [images.length]);
+
+  // Autoplay effect
+  useEffect(() => {
+    if (isLoading) return;
+    
+    const intervalId = setInterval(() => {
+      nextImage();
+    }, 6000);
+    
+    return () => clearInterval(intervalId);
+  }, [isLoading, nextImage]);
+
+  // Left image index
+  const leftIndex = useMemo(() => {
+    return currentIndex;
+  }, [currentIndex]);
+
+  // Right image index
+  const rightIndex = useMemo(() => {
+    return (currentIndex + 1) % images.length;
+  }, [currentIndex, images.length]);
 
   return (
-    <section 
-      className="relative w-full bg-black overflow-hidden border-b-4 border-white"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* Main hero area with carousel */}
-      <div className="relative h-[450px] sm:h-[550px] md:h-[650px] w-full">
-        {/* Carousel container */}
-        <div className="absolute inset-0">
-          <AnimatePresence mode="wait">
-            {CAROUSEL_IMAGES.map((image, index) => (
-              index === currentSlide && (
-                <motion.div
-                  key={index}
-                  className="absolute inset-0"
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    priority
-                    className="object-cover brightness-[0.8]"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
-                  />
-                  
-                  {/* Caption marker for each slide */}
-                  <div className="absolute left-3 sm:left-8 top-4 sm:top-8 bg-white text-black p-1 px-2 sm:px-4 font-mono text-xs sm:text-sm rotate-[2deg] z-10">
-                    <span className="font-bold">{image.caption}</span>
-                  </div>
-                </motion.div>
-              )
-            ))}
-          </AnimatePresence>
-          
-          {/* Glitch/noise overlay for brutalist effect */}
-          <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.15] mix-blend-overlay pointer-events-none"></div>
-          
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-        </div>
-
-        {/* Brutalist navigation controls - positioned in the center */}
-        <div className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 flex justify-between items-center z-20 px-3 sm:px-6">
-          <button
-            onClick={prevSlide}
-            className="w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center bg-white hover:bg-yellow-300 text-black border-2 sm:border-4 border-black transform hover:rotate-[-2deg] transition-transform"
-            aria-label="Previous slide"
+    <div className="relative w-full h-[700px] overflow-hidden border-b-4 border-white bg-grid-pattern">
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-8 h-3 w-12 bg-yellow-300 z-10"></div>
+      <div className="absolute bottom-0 right-10 h-3 w-16 bg-yellow-300 z-10"></div>
+      <div className="absolute top-1/4 left-24 h-8 w-1 bg-white z-10"></div>
+      <div className="absolute bottom-1/4 right-16 h-6 w-1 bg-white z-10"></div>
+      
+      {/* Loading overlay */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div 
+            className="absolute inset-0 bg-black z-50 flex flex-col justify-center items-center"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <ChevronLeft size={20} className="sm:hidden" />
-            <ChevronLeft size={24} className="hidden sm:block" />
-          </button>
-          
-          <button
-            onClick={nextSlide}
-            className="w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center bg-white hover:bg-yellow-300 text-black border-2 sm:border-4 border-black transform hover:rotate-[2deg] transition-transform"
-            aria-label="Next slide"
-          >
-            <ChevronRight size={20} className="sm:hidden" />
-            <ChevronRight size={24} className="hidden sm:block" />
-          </button>
-        </div>
-
-        {/* Brutalist content */}
-        <div className="absolute bottom-0 left-0 w-full z-10">
-          {/* Main content */}
-          <div className="px-4 sm:px-8 pb-8 sm:pb-16 max-w-5xl">
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex flex-col justify-end h-full"
+              className="w-3/4 max-w-lg h-1.5 bg-gray-800 overflow-hidden"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
             >
-              <h1 className="text-[3.5rem] sm:text-[5rem] md:text-[8rem] font-black uppercase leading-none tracking-tighter text-white mix-blend-difference mb-2 sm:mb-4">
-                {title}
-              </h1>
-              
-              <div className="flex flex-col md:flex-row items-start gap-3 sm:gap-6">
-                <p className="text-lg sm:text-xl md:text-2xl font-mono text-white max-w-md mb-4 md:mb-0">{subtitle}</p>
-                
-                <Link 
-                  href={ctaLink} 
-                  className="relative group"
-                >
-                  <div className="bg-yellow-300 text-black px-4 sm:px-8 py-2 sm:py-4 border-2 sm:border-4 border-white font-black text-base sm:text-xl tracking-tight flex items-center relative z-10 transition-all duration-300 group-hover:rotate-2 group-hover:bg-white group-hover:border-yellow-300">
-                    {ctaText}
-                    <ArrowRight className="ml-3 transform transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
-                  <div className="absolute inset-0 border-2 sm:border-4 border-black bg-black z-0 opacity-0 group-hover:opacity-100 group-hover:rotate-[-1deg] transition-all duration-300"></div>
-                </Link>
-              </div>
+              <motion.div 
+                className="h-full bg-yellow-300"
+                initial={{ width: '0%' }}
+                animate={{ width: `${loadingProgress}%` }}
+                transition={{ ease: "easeOut" }}
+              />
             </motion.div>
+            
+            <motion.div 
+              className="mt-4 text-yellow-300 font-mono text-xs tracking-widest"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              LOADING BRUTALIST EXPERIENCE... {Math.floor(loadingProgress)}%
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {/* Main hero grid */}
+      <div className="absolute inset-0 grid grid-cols-3 h-full">
+        {/* Left column - Image */}
+        <div className="relative overflow-hidden h-full border-r-4 border-white">
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/40 to-transparent"></div>
+          <div className="absolute bottom-4 left-4 bg-black text-white text-lg font-bold p-1 shadow-md z-20">
+            {images[leftIndex].caption}
           </div>
+          <Image
+            src={images[leftIndex].src}
+            alt={images[leftIndex].alt}
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            priority
+            quality={95}
+          />
+        </div>
+        
+        {/* Middle column - Black with text */}
+        <div className="flex flex-col justify-center items-center bg-black px-4 relative overflow-hidden">
+          {/* Decorative elements - minimal and clean */}
+          <div className="absolute top-12 right-4 h-20 w-1 bg-yellow-300 opacity-70"></div>
+          <div className="absolute bottom-[60px] left-4 h-20 w-1 bg-yellow-300 opacity-70"></div>
+          
+          {/* Brand logo/text */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: isLoading ? 1.0 : 0, duration: 0.5 }}
+            className="mb-2"
+          >
+            <div className="bg-yellow-300 px-3 py-1">
+              <span className="text-black text-xs font-mono tracking-widest">ESTABLISHED 2023</span>
+            </div>
+          </motion.div>
+          
+          {/* Main title and subtitle */}
+          <motion.h1 
+            className="text-white text-center font-black text-7xl tracking-tighter leading-none mb-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: isLoading ? 1.2 : 0, duration: 0.5 }}
+          >
+            {title}
+          </motion.h1>
+          
+          <motion.p
+            className="text-yellow-300 text-center font-medium mb-8 text-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: isLoading ? 1.4 : 0.1, duration: 0.5 }}
+          >
+            {subtitle}
+          </motion.p>
+          
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: isLoading ? 1.6 : 0.2, duration: 0.5 }}
+          >
+            <Link 
+              href={ctaLink}
+              className="group relative inline-block"
+            >
+              <div className="relative border-2 border-white px-10 py-4 bg-black text-yellow-300 font-black tracking-widest text-sm inline-block transition-all duration-300 ease-out">
+                {ctaText}
+                <span className="absolute left-0 top-0 h-full w-1 bg-white transition-all duration-300 ease-out group-hover:h-0"></span>
+                <span className="absolute right-0 bottom-0 h-full w-1 bg-white transition-all duration-300 ease-out group-hover:h-0"></span>
+                <span className="absolute bottom-[-2px] left-1 w-full h-[2px] bg-white transition-all duration-300 ease-out group-hover:w-0"></span>
+                <span className="absolute top-[-2px] right-1 w-full h-[2px] bg-white transition-all duration-300 ease-out group-hover:w-0"></span>
+              </div>
+            </Link>
+          </motion.div>
+        </div>
+        
+        {/* Right column - Image */}
+        <div className="relative overflow-hidden h-full border-l-4 border-white">
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/40 to-transparent"></div>
+          <div className="absolute bottom-4 right-4 bg-black text-white text-lg font-bold p-1 shadow-md z-20">
+            {images[rightIndex].caption}
+          </div>
+          <Image
+            src={images[rightIndex].src}
+            alt={images[rightIndex].alt}
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            priority
+            quality={95}
+          />
         </div>
       </div>
-
-      {/* Progress indicators - Black line with indicators */}
-      <div className="w-full h-2 sm:h-3 bg-black border-t-2 border-black z-20">
-        <div className="flex w-full h-full">
-          {CAROUSEL_IMAGES.map((_, index) => (
-            <div 
-              key={index} 
-              className={`h-full flex-1 ${index === currentSlide ? 'bg-white' : 'bg-gray-600'} cursor-pointer transition-colors duration-300`}
-              onClick={() => setCurrentSlide(index)}
-            />
-          ))}
-        </div>
+      
+      {/* Navigation buttons */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4 z-20">
+        <button 
+          onClick={prevImage}
+          className="bg-black text-white p-2 font-bold border-2 border-white hover:bg-white hover:text-black transition-colors duration-300"
+          aria-label="Previous image"
+        >
+          <motion.span 
+            whileHover={{ x: -2 }} 
+            className="inline-block"
+          >
+            ←
+          </motion.span>
+        </button>
+        <button 
+          onClick={nextImage}
+          className="bg-black text-white p-2 font-bold border-2 border-white hover:bg-white hover:text-black transition-colors duration-300"
+          aria-label="Next image"
+        >
+          <motion.span 
+            whileHover={{ x: 2 }} 
+            className="inline-block"
+          >
+            →
+          </motion.span>
+        </button>
       </div>
-    </section>
+    </div>
   );
 }
 

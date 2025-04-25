@@ -76,7 +76,7 @@ export function BrutalistHero({
       onMouseLeave={handleMouseLeave}
     >
       {/* Main hero area with carousel */}
-      <div className="relative h-[650px] w-full">
+      <div className="relative h-[450px] sm:h-[550px] md:h-[650px] w-full">
         {/* Carousel container */}
         <div className="absolute inset-0">
           <AnimatePresence mode="wait">
@@ -96,10 +96,11 @@ export function BrutalistHero({
                     fill
                     priority
                     className="object-cover brightness-[0.8]"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
                   />
                   
                   {/* Caption marker for each slide */}
-                  <div className="absolute left-8 top-8 bg-white text-black p-1 px-4 font-mono text-sm rotate-[2deg] z-10">
+                  <div className="absolute left-3 sm:left-8 top-4 sm:top-8 bg-white text-black p-1 px-2 sm:px-4 font-mono text-xs sm:text-sm rotate-[2deg] z-10">
                     <span className="font-bold">{image.caption}</span>
                   </div>
                 </motion.div>
@@ -115,50 +116,52 @@ export function BrutalistHero({
         </div>
 
         {/* Brutalist navigation controls - positioned in the center */}
-        <div className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 flex justify-between items-center z-20 px-6">
+        <div className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 flex justify-between items-center z-20 px-3 sm:px-6">
           <button
             onClick={prevSlide}
-            className="w-12 h-12 flex items-center justify-center bg-white hover:bg-yellow-300 text-black border-4 border-black transform hover:rotate-[-2deg] transition-transform"
+            className="w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center bg-white hover:bg-yellow-300 text-black border-2 sm:border-4 border-black transform hover:rotate-[-2deg] transition-transform"
             aria-label="Previous slide"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} className="sm:hidden" />
+            <ChevronLeft size={24} className="hidden sm:block" />
           </button>
           
           <button
             onClick={nextSlide}
-            className="w-12 h-12 flex items-center justify-center bg-white hover:bg-yellow-300 text-black border-4 border-black transform hover:rotate-[2deg] transition-transform"
+            className="w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center bg-white hover:bg-yellow-300 text-black border-2 sm:border-4 border-black transform hover:rotate-[2deg] transition-transform"
             aria-label="Next slide"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={20} className="sm:hidden" />
+            <ChevronRight size={24} className="hidden sm:block" />
           </button>
         </div>
 
         {/* Brutalist content */}
         <div className="absolute bottom-0 left-0 w-full z-10">
           {/* Main content */}
-          <div className="px-8 pb-16 max-w-5xl">
+          <div className="px-4 sm:px-8 pb-8 sm:pb-16 max-w-5xl">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={isLoaded ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex flex-col justify-end h-full"
             >
-              <h1 className="text-[8rem] font-black uppercase leading-none tracking-tighter text-white mix-blend-difference mb-4">
+              <h1 className="text-[3.5rem] sm:text-[5rem] md:text-[8rem] font-black uppercase leading-none tracking-tighter text-white mix-blend-difference mb-2 sm:mb-4">
                 {title}
               </h1>
               
-              <div className="flex flex-col md:flex-row items-start gap-6">
-                <p className="text-2xl font-mono text-white max-w-md mb-6 md:mb-0">{subtitle}</p>
+              <div className="flex flex-col md:flex-row items-start gap-3 sm:gap-6">
+                <p className="text-lg sm:text-xl md:text-2xl font-mono text-white max-w-md mb-4 md:mb-0">{subtitle}</p>
                 
                 <Link 
                   href={ctaLink} 
                   className="relative group"
                 >
-                  <div className="bg-yellow-300 text-black px-8 py-4 border-4 border-white font-black text-xl tracking-tight flex items-center relative z-10 transition-all duration-300 group-hover:rotate-2 group-hover:bg-white group-hover:border-yellow-300">
+                  <div className="bg-yellow-300 text-black px-4 sm:px-8 py-2 sm:py-4 border-2 sm:border-4 border-white font-black text-base sm:text-xl tracking-tight flex items-center relative z-10 transition-all duration-300 group-hover:rotate-2 group-hover:bg-white group-hover:border-yellow-300">
                     {ctaText}
                     <ArrowRight className="ml-3 transform transition-transform duration-300 group-hover:translate-x-1" />
                   </div>
-                  <div className="absolute inset-0 border-4 border-black bg-black z-0 opacity-0 group-hover:opacity-100 group-hover:rotate-[-1deg] transition-all duration-300"></div>
+                  <div className="absolute inset-0 border-2 sm:border-4 border-black bg-black z-0 opacity-0 group-hover:opacity-100 group-hover:rotate-[-1deg] transition-all duration-300"></div>
                 </Link>
               </div>
             </motion.div>
@@ -167,7 +170,7 @@ export function BrutalistHero({
       </div>
 
       {/* Progress indicators - Black line with indicators */}
-      <div className="w-full h-3 bg-black border-t-2 border-black z-20">
+      <div className="w-full h-2 sm:h-3 bg-black border-t-2 border-black z-20">
         <div className="flex w-full h-full">
           {CAROUSEL_IMAGES.map((_, index) => (
             <div 

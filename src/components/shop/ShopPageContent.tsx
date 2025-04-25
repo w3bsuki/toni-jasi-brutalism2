@@ -10,6 +10,7 @@ import ProductQuickView from "@/components/shop/ProductQuickView";
 import { RecentlyViewedSection } from "@/components/shop/RecentlyViewedSection";
 import { useRecentlyViewed } from "@/hooks/use-recently-viewed";
 import { Product } from "@/types/product";
+import { Filter, SlidersHorizontal } from "lucide-react";
 
 export default function ShopPageContent() {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
@@ -123,15 +124,24 @@ export default function ShopPageContent() {
     max: Math.ceil(Math.max(...products.map(p => p.price)))
   };
 
+  // Check if any filters are active
+  const hasActiveFilters = 
+    activeFilters.collections.length > 0 || 
+    activeFilters.sizes.length > 0 || 
+    activeFilters.colors.length > 0 || 
+    activeFilters.onSale || 
+    activeFilters.inStock || 
+    activeFilters.newArrivals;
+
   return (
     <div className="w-full bg-white">
       {/* Hero section */}
-      <div className="w-full bg-black border-b-4 border-yellow-300 py-12">
+      <div className="w-full bg-black border-b-4 border-yellow-300 py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-2 sm:mb-4">
             SHOP ALL PRODUCTS
           </h1>
-          <p className="text-white/80 text-lg max-w-2xl mx-auto">
+          <p className="text-white/80 text-base sm:text-lg max-w-2xl mx-auto">
             Browse our complete collection of premium hats and headwear. 
             Find the perfect style to express yourself.
           </p>
@@ -139,22 +149,48 @@ export default function ShopPageContent() {
       </div>
 
       {/* Shop content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Mobile filters button */}
-          <button
-            type="button"
-            className="md:hidden w-full bg-black text-white font-bold py-3 mb-4 border-2 border-black hover:bg-yellow-300 hover:text-black transition-colors flex items-center justify-center"
-            onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
-          >
-            {mobileFiltersOpen ? "HIDE FILTERS" : "SHOW FILTERS"}
-          </button>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+          {/* Mobile filters toggle */}
+          <div className="md:hidden flex items-center justify-between mb-4">
+            <button
+              type="button"
+              className="bg-black text-white font-bold py-2 px-4 border-2 border-black hover:bg-yellow-300 hover:text-black transition-colors flex items-center gap-2"
+              onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+            >
+              <Filter size={16} />
+              {mobileFiltersOpen ? "HIDE FILTERS" : "FILTERS"}
+            </button>
+            
+            <div className="flex items-center text-sm font-semibold">
+              {hasActiveFilters && (
+                <button
+                  onClick={() => {
+                    setActiveFilters({
+                      collections: [],
+                      priceRange: { min: priceRange.min, max: priceRange.max },
+                      sizes: [],
+                      colors: [],
+                      onSale: false,
+                      inStock: false,
+                      newArrivals: false,
+                    });
+                    setSortOption("featured");
+                  }}
+                  className="text-red-600 mr-4 underline"
+                >
+                  Clear all
+                </button>
+              )}
+              <span>{filteredProducts.length} products</span>
+            </div>
+          </div>
 
           {/* Filters sidebar */}
           <div 
             className={`${
               mobileFiltersOpen ? 'block' : 'hidden'
-            } md:block w-full md:w-64 lg:w-72 flex-shrink-0`}
+            } md:block w-full md:w-64 lg:w-72 flex-shrink-0 transition-all duration-300 ease-in-out`}
           >
             <ProductFilters
               collections={collections}
@@ -168,17 +204,43 @@ export default function ShopPageContent() {
 
           {/* Product grid */}
           <div className="flex-1">
-            {/* Sort and results count */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-              <p className="text-black font-bold">
-                {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
-              </p>
+            {/* Desktop results count and sort */}
+            <div className="hidden md:flex justify-between items-center mb-6">
+              <div className="flex items-center">
+                <p className="text-black font-bold">
+                  {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
+                </p>
+                {hasActiveFilters && (
+                  <button
+                    onClick={() => {
+                      setActiveFilters({
+                        collections: [],
+                        priceRange: { min: priceRange.min, max: priceRange.max },
+                        sizes: [],
+                        colors: [],
+                        onSale: false,
+                        inStock: false,
+                        newArrivals: false,
+                      });
+                      setSortOption("featured");
+                    }}
+                    className="ml-4 text-red-600 underline text-sm font-medium"
+                  >
+                    Clear all filters
+                  </button>
+                )}
+              </div>
+              <ProductSort sortOption={sortOption} setSortOption={setSortOption} />
+            </div>
+
+            {/* Mobile sort dropdown */}
+            <div className="mb-4 md:hidden">
               <ProductSort sortOption={sortOption} setSortOption={setSortOption} />
             </div>
 
             {/* Products grid */}
             {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {filteredProducts.map((product) => (
                   <ProductCard 
                     key={product.id} 
@@ -188,7 +250,7 @@ export default function ShopPageContent() {
                 ))}
               </div>
             ) : (
-              <div className="bg-gray-50 border-2 border-black p-8 text-center">
+              <div className="bg-gray-50 border-2 border-black p-6 sm:p-8 text-center">
                 <h3 className="text-xl font-bold mb-2">No products found</h3>
                 <p className="text-gray-600 mb-4">
                   Try adjusting your filters to find what you're looking for.

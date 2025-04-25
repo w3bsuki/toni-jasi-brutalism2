@@ -41,9 +41,14 @@ export function BrutalistFeaturedCollections({
   };
 
   return (
-    <section className="relative w-full bg-black py-16 px-6">
+    <section className="relative w-full bg-black py-16 px-6 overflow-hidden">
+      {/* Diagonal lines background pattern - brutalist style */}
+      <div className="absolute inset-0 z-0 opacity-10">
+        <div className="h-full w-full bg-[repeating-linear-gradient(45deg,white,white_1px,transparent_1px,transparent_10px)]"></div>
+      </div>
+      
       {/* Section title with brutalist style */}
-      <div className="max-w-7xl mx-auto mb-12">
+      <div className="max-w-7xl mx-auto mb-12 relative z-10">
         <h2 className="inline-block text-5xl md:text-7xl font-black text-white uppercase tracking-tighter mb-2 relative">
           {title}
           <div className="absolute h-4 w-full bg-yellow-300 -bottom-1 left-0 z-0"></div>
@@ -52,12 +57,12 @@ export function BrutalistFeaturedCollections({
       
       {/* Collections grid with brutalist styling - exactly 3 cards per row with optimized responsive layout */}
       <motion.div 
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto relative z-10"
         variants={containerVariants}
         initial="hidden"
         animate={isLoaded ? "visible" : "hidden"}
       >
-        {collections.map((collection) => (
+        {collections.slice(0, 3).map((collection) => (
           <motion.div 
             key={collection.id}
             variants={itemVariants}
@@ -72,7 +77,7 @@ export function BrutalistFeaturedCollections({
               {/* Image with fallback */}
               <div className="absolute inset-0 bg-gray-800">
                 <Image 
-                  src={collection.image || "/images/hats/placeholder1.jpg"} 
+                  src={collection.image || "/images/hats/placeholder.jpg"} 
                   alt={collection.name}
                   fill
                   className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500 ease-out scale-100 group-hover:scale-105 will-change-transform"
@@ -118,10 +123,13 @@ export function BrutalistFeaturedCollections({
       <div className="flex justify-center mt-12">
         <Link 
           href="/collections" 
-          className="group inline-flex items-center gap-2 text-white font-bold text-xl tracking-tight uppercase border-b-4 border-white hover:border-yellow-300 hover:text-yellow-300 transition-colors duration-300"
+          className="relative group inline-flex items-center"
         >
-          View All Collections
-          <Plus size={20} className="transform group-hover:rotate-90 transition-transform duration-300" />
+          <div className="bg-black text-white px-8 py-4 font-black uppercase flex items-center gap-2 border-4 border-white transform group-hover:translate-x-[-4px] group-hover:translate-y-[-4px] group-hover:bg-yellow-300 group-hover:text-black transition-all duration-300">
+            <span>View All Collections</span>
+            <Plus size={20} className="transform group-hover:rotate-90 transition-transform duration-300" />
+          </div>
+          <div className="absolute inset-0 border-4 border-black translate-x-2 translate-y-2 -z-10 bg-yellow-300"></div>
         </Link>
       </div>
     </section>

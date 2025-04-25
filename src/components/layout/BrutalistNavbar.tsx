@@ -14,6 +14,7 @@ interface NavItem {
   }>;
 }
 
+// Navigation items
 const navItems: NavItem[] = [
   {
     label: "NEW",
@@ -92,7 +93,7 @@ export function BrutalistNavbar() {
           <div className="flex items-center gap-4">
             {/* Logo */}
             <Link href="/" className="text-2xl md:text-3xl font-black text-white tracking-tighter transform hover:skew-x-2 transition-transform duration-200">
-              NOCAP
+              ХУЛИГАНКА
             </Link>
             
             {/* Social Media - Brutalist Style */}
@@ -101,7 +102,7 @@ export function BrutalistNavbar() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white text-black p-1.5 border-2 border-black hover:bg-yellow-300 transition-colors"
+                className="bg-white text-black p-1.5 border-2 border-black hover:bg-yellow-300 transition-colors transform hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                 aria-label="Instagram"
               >
                 <Instagram size={16} strokeWidth={2.5} />
@@ -111,7 +112,7 @@ export function BrutalistNavbar() {
                 href="https://tiktok.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white text-black p-1.5 border-2 border-black hover:bg-yellow-300 transition-colors"
+                className="bg-white text-black p-1.5 border-2 border-black hover:bg-yellow-300 transition-colors transform hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]"
                 aria-label="TikTok"
               >
                 <svg 
@@ -140,7 +141,7 @@ export function BrutalistNavbar() {
                 >
                   <Link
                     href={item.href}
-                    className="flex items-center text-white font-bold text-sm tracking-widest hover:text-yellow-300 transition-colors"
+                    className="flex items-center text-white font-bold text-sm tracking-widest hover:text-yellow-300 transition-colors py-1 relative"
                   >
                     {item.label}
                     {item.children && (
@@ -149,7 +150,7 @@ export function BrutalistNavbar() {
                   </Link>
                   
                   <div className={`absolute h-[3px] bottom-0 left-0 bg-yellow-300 transition-all duration-300 ${
-                    activeDropdown === item.label || !item.children ? "w-full" : "w-0 group-hover:w-full"
+                    activeDropdown === item.label ? "w-full" : "w-0 group-hover:w-full"
                   }`} />
                   
                   <AnimatePresence>
@@ -159,7 +160,7 @@ export function BrutalistNavbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 w-60 bg-white border-4 border-black overflow-hidden z-50"
+                        className="absolute top-full left-0 mt-2 w-60 bg-white border-4 border-black overflow-hidden z-50 shadow-[4px_4px_0px_rgba(0,0,0,1)]"
                       >
                         <div className="py-1">
                           {item.children.map((child) => (
@@ -210,7 +211,7 @@ export function BrutalistNavbar() {
                 </motion.div>
               ) : (
                 <button
-                  className="text-white hover:text-yellow-300 transition-colors p-1"
+                  className="text-white hover:text-yellow-300 transition-colors p-1 hover:rotate-[1deg]"
                   aria-label="Search"
                   onClick={() => setSearchOpen(true)}
                 >
@@ -222,36 +223,38 @@ export function BrutalistNavbar() {
 
           {/* Actions */}
           <div className="flex items-center gap-5">
-            {/* Brutalist SHOP button - Larger */}
+            {/* Brutalist SHOP button with visible borders */}
             <Link 
               href="/collections"
-              className="hidden md:block bg-white border-4 border-black font-black uppercase text-black tracking-widest transform transition-all duration-200 hover:-rotate-1 hover:bg-yellow-300 hover:translate-y-[-2px] px-6 py-2.5 text-base"
+              className="hidden md:block relative bg-yellow-300 border-4 border-black font-black uppercase text-black tracking-widest px-6 py-2.5 text-base hover:bg-black hover:text-yellow-300 hover:border-yellow-300 transition-all"
             >
               SHOP
             </Link>
             
-            {/* Cart Button - Icon only */}
+            {/* Cart Button - With improved brutalist style */}
             <Link 
               href="/cart"
-              className="relative bg-white p-2.5 border-3 border-black hover:bg-yellow-300 transition-colors flex items-center justify-center"
+              className="group relative bg-white border-3 border-yellow-300 hover:bg-black transition-colors flex items-center justify-center"
               aria-label="View cart"
             >
-              <ShoppingBag size={20} strokeWidth={2.5} className="text-black" />
+              <div className="p-2.5">
+                <ShoppingBag size={20} strokeWidth={2.5} className="text-black group-hover:text-white transition-colors" />
+              </div>
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-black">
                 0
               </span>
             </Link>
             
-            {/* Mobile menu button */}
+            {/* Mobile menu button with style matching other buttons */}
             <button
-              className="md:hidden text-white hover:text-yellow-300 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              className="text-white p-2 md:hidden focus:outline-none border-3 border-white bg-black hover:bg-yellow-300 hover:text-black hover:border-black transition-colors"
+              aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
-                <X size={28} strokeWidth={2.5} />
+                <X size={24} strokeWidth={2.5} />
               ) : (
-                <Menu size={28} strokeWidth={2.5} />
+                <Menu size={24} strokeWidth={2.5} />
               )}
             </button>
           </div>
@@ -324,7 +327,7 @@ export function BrutalistNavbar() {
               {/* Mobile Shop Button */}
               <Link
                 href="/collections" 
-                className="bg-black text-white font-black text-xl uppercase py-3 text-center tracking-widest border-2 border-black hover:bg-yellow-300 hover:text-black transition-colors"
+                className="relative bg-yellow-300 text-black font-black text-xl uppercase py-3 text-center tracking-widest border-4 border-black hover:bg-black hover:text-yellow-300 hover:border-yellow-300 transition-all"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 SHOP NOW
@@ -336,7 +339,7 @@ export function BrutalistNavbar() {
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-black text-white p-2 border-2 border-black"
+                  className="bg-black text-white p-2 border-2 border-white hover:bg-yellow-300 hover:text-black hover:border-black transition-colors"
                   aria-label="Instagram"
                 >
                   <Instagram size={16} strokeWidth={2.5} />
@@ -346,7 +349,7 @@ export function BrutalistNavbar() {
                   href="https://tiktok.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-black text-white p-2 border-2 border-black"
+                  className="bg-black text-white p-2 border-2 border-white hover:bg-yellow-300 hover:text-black hover:border-black transition-colors"
                   aria-label="TikTok"
                 >
                   <svg 

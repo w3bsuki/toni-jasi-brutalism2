@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, ArrowRight, Star, Package, Clock, PercentCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 
 // Hero carousel images
 const CAROUSEL_IMAGES = [
@@ -22,34 +22,6 @@ const CAROUSEL_IMAGES = [
     src: "/images/hats/placeholder.jpg",
     alt: "Skate park with bucket hat",
     caption: "SKATE CULTURE",
-  }
-];
-
-// Marquee items for bottom brutalist banner
-const MARQUEE_ITEMS = [
-  {
-    icon: <Star className="w-5 h-5" />,
-    text: "JOIN THE HAT GANG",
-    linkText: "JOIN",
-    linkUrl: "/signup"
-  },
-  {
-    icon: <Package className="w-5 h-5" />,
-    text: "FREE SHIPPING OVER $50",
-    linkText: "SHOP",
-    linkUrl: "/collections"
-  },
-  {
-    icon: <PercentCircle className="w-5 h-5" />,
-    text: "GET 15% OFF YOUR FIRST ORDER",
-    linkText: "CLAIM", 
-    linkUrl: "/signup"
-  },
-  {
-    icon: <Clock className="w-5 h-5" />,
-    text: "LIMITED DROPS EVERY FRIDAY",
-    linkText: "VIEW",
-    linkUrl: "/collection/limited-edition"
   }
 ];
 
@@ -171,73 +143,22 @@ export function BrutalistHero({
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex flex-col justify-end h-full"
             >
-              <h1 className="text-[8rem] font-black uppercase leading-none tracking-tighter text-white mix-blend-difference mb-10">
+              <h1 className="text-[8rem] font-black uppercase leading-none tracking-tighter text-white mix-blend-difference mb-4">
                 {title}
               </h1>
               
-              <div className="flex flex-col md:flex-row items-start gap-8">
+              <div className="flex flex-col md:flex-row items-start gap-6">
                 <p className="text-2xl font-mono text-white max-w-md mb-6 md:mb-0">{subtitle}</p>
                 
-                <Link href={ctaLink} className="group relative">
-                  <motion.div 
-                    className="bg-yellow-300 text-black px-8 py-4 border-4 border-white font-black text-xl tracking-tight flex items-center relative z-10"
-                    whileHover="hover"
-                    initial="initial"
-                    variants={{
-                      initial: { 
-                        x: 0, 
-                        y: 0,
-                        backgroundColor: "#fde047", // yellow-300
-                        borderColor: "#ffffff" // white border
-                      },
-                      hover: { 
-                        x: -5, 
-                        y: -5,
-                        backgroundColor: "#ffffff",
-                        borderColor: "#fde047", // yellow border on hover instead of black
-                        transition: { 
-                          duration: 0.2, 
-                          ease: "easeOut" 
-                        }
-                      }
-                    }}
-                  >
+                <Link 
+                  href={ctaLink} 
+                  className="relative group"
+                >
+                  <div className="bg-yellow-300 text-black px-8 py-4 border-4 border-white font-black text-xl tracking-tight flex items-center relative z-10 transition-all duration-300 group-hover:rotate-2 group-hover:bg-white group-hover:border-yellow-300">
                     {ctaText}
-                    <motion.div
-                      variants={{
-                        initial: { x: 0 },
-                        hover: { 
-                          x: 6,
-                          transition: { 
-                            duration: 0.3, 
-                            ease: "easeOut",
-                            delay: 0.1
-                          }
-                        }
-                      }}
-                    >
-                      <ArrowRight className="ml-3" />
-                    </motion.div>
-                  </motion.div>
-                  
-                  <motion.div 
-                    className="absolute inset-0 border-4 border-black bg-black z-0"
-                    variants={{
-                      initial: { 
-                        opacity: 0,
-                        x: 0,
-                        y: 0
-                      },
-                      hover: { 
-                        opacity: 1,
-                        x: 2,
-                        y: 2,
-                        transition: { 
-                          duration: 0.15
-                        }
-                      }
-                    }}
-                  />
+                    <ArrowRight className="ml-3 transform transition-transform duration-300 group-hover:translate-x-1" />
+                  </div>
+                  <div className="absolute inset-0 border-4 border-black bg-black z-0 opacity-0 group-hover:opacity-100 group-hover:rotate-[-1deg] transition-all duration-300"></div>
                 </Link>
               </div>
             </motion.div>
@@ -246,76 +167,16 @@ export function BrutalistHero({
       </div>
 
       {/* Progress indicators - Black line with indicators */}
-      <div className="w-full h-2 border-t-2 border-black z-20">
+      <div className="w-full h-3 bg-black border-t-2 border-black z-20">
         <div className="flex w-full h-full">
           {CAROUSEL_IMAGES.map((_, index) => (
             <div 
               key={index} 
-              className={`h-full flex-1 ${index === currentSlide ? 'bg-white' : 'bg-white/50'} cursor-pointer`}
+              className={`h-full flex-1 ${index === currentSlide ? 'bg-white' : 'bg-gray-600'} cursor-pointer transition-colors duration-300`}
               onClick={() => setCurrentSlide(index)}
             />
           ))}
         </div>
-      </div>
-
-      {/* Bottom marquee banner */}
-      <div className="relative w-full border-t-4 border-b-4 border-black overflow-hidden bg-yellow-300 py-3">
-        <div className="w-full overflow-hidden flex items-center" style={{ height: '42px' }}>
-          <div className="flex whitespace-nowrap marquee items-center">
-            {[...Array(8)].map((_, repeat) => (
-              MARQUEE_ITEMS.map((item, idx) => (
-                <div 
-                  key={`${idx}-${repeat}`} 
-                  className="inline-flex items-center mx-8 shrink-0"
-                >
-                  <div className="flex items-center mr-4">
-                    <div className="w-8 h-8 mr-3 flex items-center justify-center bg-black text-yellow-300">
-                      {item.icon}
-                    </div>
-                    <span className="text-black font-black text-sm tracking-tight uppercase">
-                      {item.text}
-                    </span>
-                  </div>
-                  
-                  <Link 
-                    href={item.linkUrl}
-                    className="relative flex items-center"
-                  >
-                    <div className="px-4 py-1 font-bold text-xs tracking-wider bg-black text-white border-2 border-white hover:bg-white hover:text-black hover:border-black transition-colors duration-150">
-                      {item.linkText}
-                    </div>
-                  </Link>
-                  
-                  {/* Add visual separator between items */}
-                  <div className="h-6 mx-8 border-r-2 border-black flex items-center"></div>
-                </div>
-              ))
-            ))}
-          </div>
-        </div>
-        
-        {/* Edge fade effects */}
-        <div className="absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-yellow-300 to-transparent z-10"></div>
-        <div className="absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-yellow-300 to-transparent z-10"></div>
-
-        <style jsx>{`
-          .marquee {
-            animation: marquee 60s linear infinite;
-          }
-          
-          @keyframes marquee {
-            0% {
-              transform: translateX(0);
-            }
-            100% {
-              transform: translateX(-50%);
-            }
-          }
-          
-          .w-full:hover .marquee {
-            animation-play-state: paused;
-          }
-        `}</style>
       </div>
     </section>
   );

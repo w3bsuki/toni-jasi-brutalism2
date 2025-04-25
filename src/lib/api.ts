@@ -55,7 +55,7 @@ export async function getFeaturedCollections(): Promise<Collection[]> {
       name: 'Summer Collection',
       slug: 'summer-collection',
       description: 'Stay cool and stylish with our summer hat collection.',
-      image: '/images/collections/summer-collection.jpg',
+      image: '/images/hats/placeholder.jpg',
       products: [] // Ensure this is always an array
     },
     {
@@ -63,7 +63,7 @@ export async function getFeaturedCollections(): Promise<Collection[]> {
       name: 'Winter Essentials',
       slug: 'winter-essentials',
       description: 'Keep warm with our premium winter hats.',
-      image: '/images/collections/winter-collection.jpg',
+      image: '/images/hats/placeholder.jpg',
       products: [] // Ensure this is always an array
     },
     {
@@ -71,15 +71,7 @@ export async function getFeaturedCollections(): Promise<Collection[]> {
       name: 'Sport Caps',
       slug: 'sport-caps',
       description: 'Performance hats designed for athletes and sport enthusiasts.',
-      image: '/images/collections/sport-collection.jpg',
-      products: [] // Ensure this is always an array
-    },
-    {
-      id: '4',
-      name: 'Luxury Hats',
-      slug: 'luxury-hats',
-      description: 'Exclusive designs using premium materials for discerning customers.',
-      image: '/images/collections/luxury-collection.jpg',
+      image: '/images/hats/placeholder.jpg',
       products: [] // Ensure this is always an array
     }
   ];

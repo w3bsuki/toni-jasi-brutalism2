@@ -65,9 +65,8 @@ export function BrutalistFooter() {
                   placeholder="YOUR EMAIL"
                   className="w-full py-3 px-4 bg-white border-4 border-black text-black font-bold focus:outline-none"
                 />
-                <button className="group relative flex items-center justify-center bg-black text-white py-3 px-5 border-4 border-black font-bold text-base uppercase hover:bg-white hover:text-black transition-colors">
-                  <span>SIGN UP</span>
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <button className="whitespace-nowrap group inline-flex items-center justify-center bg-black text-white py-3 px-5 border-4 border-black font-bold text-base uppercase hover:bg-white hover:text-black transition-colors">
+                  SIGN UP <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </button>
               </div>
             </div>
@@ -79,8 +78,11 @@ export function BrutalistFooter() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
           {footerLinks.map((section) => (
-            <div key={section.title}>
-              <h3 className="text-xl font-black uppercase mb-6 text-white tracking-tight">{section.title}</h3>
+            <div key={section.title} className="relative">
+              <h3 className="text-xl font-black uppercase mb-6 text-white tracking-tight inline-block relative">
+                {section.title}
+                <div className="absolute h-2 w-full bg-yellow-300 -bottom-1 left-0 z-0"></div>
+              </h3>
               <ul className="space-y-4">
                 {section.links.map((link) => (
                   <li key={link.name}>
@@ -100,11 +102,11 @@ export function BrutalistFooter() {
         {/* Logo and social media */}
         <div className="mt-16 pt-8 border-t-2 border-white/20 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col items-center md:items-start">
-            <Link href="/" className="text-3xl font-black text-white uppercase tracking-tighter">
-              NOCAP
+            <Link href="/" className="text-3xl font-black text-white uppercase tracking-tighter bg-yellow-300 text-black px-3 py-1 transform rotate-1 border-2 border-black inline-block">
+              ХУЛИГАНКА
             </Link>
             <p className="mt-2 text-white/60 text-sm">
-              © {new Date().getFullYear()} NOCAP LLC. All rights reserved.
+              © {new Date().getFullYear()} ХУЛИГАНКА LLC. All rights reserved.
             </p>
           </div>
           
@@ -114,14 +116,14 @@ export function BrutalistFooter() {
               { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
               { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
               { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-            ].map((social) => (
+            ].map((social, index) => (
               <a
                 key={social.href}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                className="bg-white text-black p-2 border-3 border-black hover:bg-yellow-300 transition-colors transform hover:rotate-2"
+                className={`bg-white text-black p-2 border-3 border-black hover:bg-yellow-300 transition-colors transform ${index === 0 ? 'rotate-2' : index === 1 ? '-rotate-2' : 'rotate-1'}`}
               >
                 <social.icon size={20} />
               </a>
@@ -130,8 +132,10 @@ export function BrutalistFooter() {
         </div>
         
         {/* Bottom brutalist design element */}
-        <div className="mt-8 h-6 bg-yellow-300 border-t-4 border-b-4 border-black relative">
+        <div className="mt-8 relative">
+          <div className="h-6 bg-yellow-300 border-t-4 border-b-4 border-black"></div>
           <div className="absolute top-0 right-0 w-24 h-6 bg-white border-l-4 border-black transform -skew-x-12"></div>
+          <div className="absolute top-0 left-1/4 w-12 h-6 bg-black border-r-4 border-yellow-300 transform skew-x-12"></div>
         </div>
       </div>
     </footer>

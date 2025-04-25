@@ -1,10 +1,10 @@
 import { Suspense } from 'react';
 import { BrutalistHero } from '@/components/home/BrutalistHero';
-import { SignupCarousel } from '@/components/home/SignupCarousel';
 import { BrutalistFeaturedCollections } from '@/components/home/BrutalistFeaturedCollections';
 import { BrutalistTrendingCarousel } from '@/components/home/BrutalistTrendingCarousel';
 import { BrutalistLogoRibbon } from '@/components/home/BrutalistLogoRibbon';
 import { BrutalistTextMarquee } from '@/components/home/BrutalistTextMarquee';
+import { BrutalistSignupCarousel } from '@/components/home/BrutalistSignupCarousel';
 import { Collection, Product } from '@/lib/types';
 import { getFeaturedCollections, getTrendingProducts } from '@/lib/api';
 
@@ -19,14 +19,14 @@ export default async function Home() {
     <div className="flex flex-col min-h-screen">
       {/* Full-width Brutalist Hero section with carousel */}
       <BrutalistHero 
-        title="BUCKET HATS" 
+        title="ХУЛИГАНКА" 
         subtitle="Bold designs for the urban explorer. Limited drops, unlimited style."
         ctaText="SHOP NOW"
         ctaLink="/collection/bucket-hats"
       />
       
-      {/* Full-width SignupCarousel directly below Hero */}
-      <SignupCarousel />
+      {/* Signup Carousel */}
+      <BrutalistSignupCarousel />
       
       {/* Brutalist Logo Ribbon */}
       <BrutalistLogoRibbon />
@@ -39,8 +39,11 @@ export default async function Home() {
 
       {/* Brutalist Text Marquee */}
       <BrutalistTextMarquee 
-        text={["LIMITED DROPS", "EXCLUSIVE ACCESS", "JOIN THE HAT GANG", "SHOP NOW"]} 
-        speed={50}
+        text="ХУЛИГАНКА"
+        bgColor="bg-black"
+        textColor="text-yellow-300"
+        borderColor="border-yellow-300"
+        speed={80}
       />
 
       {/* Brutalist Trending Products Carousel */}

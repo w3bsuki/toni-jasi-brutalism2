@@ -10,7 +10,7 @@ const RibbonLogos = () => {
   return (
     <section className="bg-black py-12 w-full overflow-hidden">
       <h2 className="mx-4 mb-8 text-center text-2xl font-bold text-white md:text-4xl uppercase tracking-wider">
-        Join the NoCAP Club
+        Join the ХУЛИГАНКА Club
       </h2>
       <div className="flex translate-y-[50%] rotate-[7deg] scale-110 overflow-hidden border-y-2 border-white/30 bg-black">
         <TranslateWrapper>
@@ -87,7 +87,7 @@ const LogoItemsTop = () => (
     <LogoItem Icon={Crown} text="Exclusive Designs" />
     <LogoItem Icon={Zap} text="Fast Shipping" />
     <LogoItem Icon={Trophy} text="Award Winning" />
-    <LogoItem Icon={Hash} text="NoCAP" />
+    <LogoItem Icon={Hash} text="ХУЛИГАНКА" />
   </>
 );
 

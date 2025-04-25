@@ -1,7 +1,6 @@
 import { Collection } from './types';
 import { Product } from '@/types/product';
-import { products as newProducts } from '@/lib/data/products';
-import { products as oldProducts } from '@/data/products';
+import { products as mockProducts } from '@/data/products';
 
 // Define a consistent placeholder image path
 const placeholderImage = "/images/hats/placeholder1.jpg";
@@ -180,17 +179,11 @@ export async function getTrendingProducts(): Promise<Product[]> {
 }
 
 /**
- * Fetch all products from API - combining both product sets
+ * Fetch all products from API
  */
 export async function getAllProducts(): Promise<Product[]> {
-  // First process the new products with unsplash images
-  const processedNewProducts = newProducts.map(normalizeProduct);
-  
-  // Then process the old products
-  const processedOldProducts = oldProducts.map(normalizeProduct);
-  
-  // Combine both product sets
-  return [...processedNewProducts, ...processedOldProducts];
+  // Process all products with normalization
+  return mockProducts.map(normalizeProduct);
 }
 
 /**

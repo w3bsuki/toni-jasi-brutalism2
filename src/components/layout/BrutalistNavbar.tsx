@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, Search, ShoppingBag, X, ChevronDown, Instagram } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCart } from "@/hooks/use-cart";
 
 interface NavItem {
   label: string;
@@ -22,6 +23,17 @@ const navItems: NavItem[] = [
     children: [
       { label: "NEW ARRIVALS", href: "/new/arrivals" },
       { label: "BEST SELLERS", href: "/new/best-sellers" },
+    ],
+  },
+  {
+    label: "SHOP",
+    href: "/shop",
+    children: [
+      { label: "ALL PRODUCTS", href: "/shop" },
+      { label: "SNAPBACK", href: "/styles/snapback" },
+      { label: "FITTED", href: "/styles/fitted" },
+      { label: "DAD HATS", href: "/styles/dad-hats" },
+      { label: "BEANIES", href: "/styles/beanies" },
     ],
   },
   {
@@ -52,6 +64,7 @@ export function BrutalistNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { totalItems } = useCart();
 
   // Ensure component renders client-side only
   useEffect(() => {
@@ -83,7 +96,7 @@ export function BrutalistNavbar() {
 
   return (
     <header 
-      className={`sticky top-0 z-40 bg-black transition-all duration-300 border-b-4 border-yellow-300 ${
+      className={`sticky top-0 z-40 bg-black transition-all duration-300 border-b-4 border-yellow-300 w-full ${
         scrolled ? "py-3" : "py-5"
       }`}
     >
@@ -225,7 +238,7 @@ export function BrutalistNavbar() {
           <div className="flex items-center gap-5">
             {/* Brutalist SHOP button with visible borders */}
             <Link 
-              href="/collections"
+              href="/shop"
               className="hidden md:block relative bg-yellow-300 border-4 border-black font-black uppercase text-black tracking-widest px-6 py-2.5 text-base hover:bg-black hover:text-yellow-300 hover:border-yellow-300 transition-all"
             >
               SHOP
@@ -241,7 +254,7 @@ export function BrutalistNavbar() {
                 <ShoppingBag size={20} strokeWidth={2.5} className="text-black group-hover:text-white transition-colors" />
               </div>
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-black">
-                0
+                {mounted ? totalItems : 0}
               </span>
             </Link>
             
@@ -326,7 +339,7 @@ export function BrutalistNavbar() {
               
               {/* Mobile Shop Button */}
               <Link
-                href="/collections" 
+                href="/shop" 
                 className="relative bg-yellow-300 text-black font-black text-xl uppercase py-3 text-center tracking-widest border-4 border-black hover:bg-black hover:text-yellow-300 hover:border-yellow-300 transition-all"
                 onClick={() => setMobileMenuOpen(false)}
               >

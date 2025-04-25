@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { Metadata, Viewport } from 'next';
 import { BrutalistHero } from '@/components/home/BrutalistHero';
 import { BrutalistFeaturedCollections } from '@/components/home/BrutalistFeaturedCollections';
 import { BrutalistTrendingCarousel } from '@/components/home/BrutalistTrendingCarousel';
@@ -7,6 +8,13 @@ import { BrutalistTextMarquee } from '@/components/home/BrutalistTextMarquee';
 import { BrutalistSignupCarousel } from '@/components/home/BrutalistSignupCarousel';
 import { Collection, Product } from '@/lib/types';
 import { getFeaturedCollections, getTrendingProducts } from '@/lib/api';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: '#000000',
+};
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';

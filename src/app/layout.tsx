@@ -5,7 +5,7 @@ import { BrutalistNavbar } from "@/components/layout/BrutalistNavbar";
 import { BrutalistFooter } from "@/components/layout/BrutalistFooter";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { CartProvider } from "@/hooks/useCart";
+import { CartProvider } from "@/hooks/CartProvider";
 import { ClientInitScript } from "@/components/ClientInitScript";
 import { Suspense } from "react";
 import { Analytics } from "@/components/analytics";
@@ -18,16 +18,17 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: '#000000',
+};
+
 export const metadata: Metadata = {
   title: "Hat Store | Premium Headwear Collection",
   description: "Shop our exclusive collection of premium hats for all styles and occasions.",
   metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"),
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
-  themeColor: '#000000',
   authors: [{ name: 'Hat Store Team' }],
   robots: {
     index: true,

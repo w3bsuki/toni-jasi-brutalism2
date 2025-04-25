@@ -44,7 +44,7 @@ const footerLinks = [
 
 export function BrutalistFooter() {
   return (
-    <footer className="bg-black text-white border-t-4 border-yellow-300">
+    <footer className="bg-black text-white border-t-4 border-yellow-300 w-full">
       {/* Newsletter signup - brutalist style */}
       <div className="w-full bg-yellow-300 py-10 border-y-4 border-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

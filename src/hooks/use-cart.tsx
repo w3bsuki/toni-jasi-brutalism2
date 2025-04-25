@@ -5,23 +5,25 @@ import { persist } from "zustand/middleware";
 import { Product } from "@/types/product";
 
 // Define the cart item with proper type safety
-interface CartItem {
+export interface CartItem {
   id: string;
   name: string;
   price: number;
   salePrice?: number | null;
   image: string;
   selectedSize: string | null;
+  selectedColor: string | null;
   quantity: number;
 }
 
 // Define the cart store interface
-interface CartStore {
+export interface CartStore {
   items: CartItem[];
-  addItem: (product: Product, size: string | null, quantity: number) => void;
+  addItem: (product: Product, size: string | null, color: string | null, quantity: number) => void;
   removeItem: (id: string) => void;
   updateItemQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
+  totalItems: number;
   subtotal: number;
 }
 
@@ -32,7 +34,7 @@ export const useCart = create<CartStore>()(
       items: [],
       
       // Add an item to the cart
-      addItem: (product, selectedSize, quantity) => {
+      addItem: (product, selectedSize, selectedColor, quantity) => {
         // Validate input
         if (!product || !product.id) {
           console.error("Cannot add invalid product to cart");
@@ -41,9 +43,12 @@ export const useCart = create<CartStore>()(
         
         set((state) => {
           try {
-            // Find if this product with the same size is already in the cart
+            // Find if this product with the same size and color is already in the cart
             const existingItemIndex = state.items.findIndex(
-              (item) => item.id === product.id && item.selectedSize === selectedSize
+              (item) => 
+                item.id === product.id && 
+                item.selectedSize === selectedSize &&
+                item.selectedColor === selectedColor
             );
 
             // If it exists, update quantity
@@ -63,6 +68,7 @@ export const useCart = create<CartStore>()(
                 ? product.images[0] 
                 : "/images/hats/placeholder1.jpg",
               selectedSize,
+              selectedColor,
               quantity
             };
             
@@ -90,6 +96,11 @@ export const useCart = create<CartStore>()(
       
       // Clear the entire cart
       clearCart: () => set({ items: [] }),
+      
+      // Calculate the total number of items
+      get totalItems() {
+        return get().items.reduce((total, item) => total + item.quantity, 0);
+      },
       
       // Calculate the subtotal
       get subtotal() {

@@ -43,19 +43,19 @@ export default function ProductSort({ sortOption, setSortOption }: ProductSortPr
       <button
         id="sort-menu-button"
         type="button"
-        className="flex items-center justify-between w-full border-2 border-black bg-white py-2 px-4 text-sm font-bold text-black hover:bg-gray-50 focus:outline-none"
+        className="flex items-center justify-between w-full border-2 sm:border-3 border-black bg-white py-1.5 sm:py-2.5 px-3 sm:px-5 text-xs sm:text-sm font-bold text-black hover:bg-yellow-300 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] sm:hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="mr-2">Sort by: {currentOption?.label || "Featured"}</span>
+        <span className="mr-2">Sort: {currentOption?.label || "Featured"}</span>
         <ChevronDown
-          className={`h-4 w-4 transition-transform duration-200 ${
+          className={`h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 z-10 mt-1 w-56 border-4 border-black bg-white shadow-lg">
+        <div className="absolute right-0 z-10 mt-1 w-48 sm:w-56 border-2 sm:border-4 border-black bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] sm:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <ul
             role="listbox"
             aria-labelledby="sort-menu-button"
@@ -68,7 +68,7 @@ export default function ProductSort({ sortOption, setSortOption }: ProductSortPr
                 <li
                   key={option.value}
                   role="option"
-                  className={`cursor-pointer px-4 py-2 text-sm font-bold hover:bg-yellow-300 border-b border-black/10 last:border-b-0 ${
+                  className={`cursor-pointer px-3 sm:px-5 py-1.5 sm:py-2.5 text-xs sm:text-sm font-bold hover:bg-yellow-300 border-b border-black/10 last:border-b-0 flex items-center justify-between ${
                     isSelected ? "bg-yellow-300" : ""
                   }`}
                   onClick={() => {
@@ -77,6 +77,9 @@ export default function ProductSort({ sortOption, setSortOption }: ProductSortPr
                   }}
                 >
                   {option.label}
+                  {isSelected && (
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-black rounded-full"></span>
+                  )}
                 </li>
               );
             })}

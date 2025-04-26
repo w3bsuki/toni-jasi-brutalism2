@@ -87,40 +87,51 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Product container - combined image and info */}
-      <div className="border-2 sm:border-3 md:border-4 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] sm:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+      <div className="border-2 sm:border-3 md:border-4 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] sm:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 bg-white hover:translate-y-[-2px] hover:translate-x-[-2px]">
         {/* Product image with hover effect */}
         <div className="relative aspect-square overflow-hidden bg-gray-100">
           <div className="absolute inset-0 h-full w-full">
             <Image
               src={isHovered && product.images.length > 1 ? product.images[1] : product.images[0]}
               alt={product.name}
-              className="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+              className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-110"
               width={500}
               height={500}
-              sizes="(max-width: 640px) 45vw, (max-width: 1024px) 33vw, 25vw"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
           </div>
           
           {/* Mobile action buttons - always visible */}
-          <div className="absolute bottom-2 right-2 flex space-x-1 sm:hidden">
+          <div className="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 flex space-x-1">
             <button 
               onClick={handleQuickView}
-              className="w-8 h-8 flex items-center justify-center bg-white text-black border-2 border-black rounded-full hover:bg-yellow-300 transition-colors"
+              className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-white text-black border-2 border-black rounded-full hover:bg-yellow-300 transition-colors"
               aria-label="Quick view"
             >
-              <Eye size={16} />
+              <Eye size={14} className="sm:hidden" />
+              <Eye size={16} className="hidden sm:block" />
             </button>
             <button 
               onClick={handleAddToCart}
               disabled={isAddingToCart}
-              className={`w-8 h-8 flex items-center justify-center border-2 border-black rounded-full transition-colors ${
+              className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center border-2 border-black rounded-full transition-colors ${
                 isAddingToCart 
                   ? 'bg-green-500 text-white' 
                   : 'bg-black text-white hover:bg-yellow-300 hover:text-black'
               }`}
               aria-label="Add to bag"
             >
-              {isAddingToCart ? <Check size={16} /> : <ShoppingBag size={16} />}
+              {isAddingToCart ? (
+                <>
+                  <Check size={14} className="sm:hidden" />
+                  <Check size={16} className="hidden sm:block" />
+                </>
+              ) : (
+                <>
+                  <ShoppingBag size={14} className="sm:hidden" />
+                  <ShoppingBag size={16} className="hidden sm:block" />
+                </>
+              )}
             </button>
           </div>
           
@@ -152,13 +163,19 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
           {/* Badges */}
           <div className="absolute top-0 left-0 flex flex-col">
             {product.isNew && (
-              <span className="bg-yellow-300 text-black text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 border-r-2 border-b-2 border-black shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] sm:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <span className="bg-yellow-300 text-black text-[8px] sm:text-xs md:text-sm font-bold px-1.5 sm:px-3.5 py-0.5 sm:py-1.5 border-r-2 border-b-2 border-black shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] sm:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-all duration-300">
                 NEW
               </span>
             )}
             
+            {product.isFeatured && (
+              <span className="bg-purple-600 text-white text-[8px] sm:text-xs md:text-sm font-bold px-1.5 sm:px-3.5 py-0.5 sm:py-1.5 border-r-2 border-b-2 border-black mt-[2px] shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] sm:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-all duration-300">
+                FEATURED
+              </span>
+            )}
+            
             {hasDiscount && (
-              <span className="bg-red-500 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 border-r-2 border-b-2 border-black mt-[2px] shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] sm:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <span className="bg-red-500 text-white text-[8px] sm:text-xs md:text-sm font-bold px-1.5 sm:px-3.5 py-0.5 sm:py-1.5 border-r-2 border-b-2 border-black mt-[2px] shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] sm:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-all duration-300">
                 SAVE {discountPercentage}%
               </span>
             )}
@@ -166,21 +183,21 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
         </div>
         
         {/* Product info - directly connected to the image */}
-        <div className="p-2 sm:p-3 border-t-2 sm:border-t-3 md:border-t-4 border-black bg-white relative">
+        <div className="p-1.5 sm:p-3 border-t-2 sm:border-t-3 md:border-t-4 border-black bg-white relative group-hover:bg-gray-50 transition-colors duration-300">
           {/* Product name */}
-          <h3 className="text-sm sm:text-base font-bold text-black uppercase tracking-tight line-clamp-1">
+          <h3 className="text-xs sm:text-base font-bold text-black uppercase tracking-tight line-clamp-1">
             <Link href={`/product/${product.slug}`}>
               {product.name}
             </Link>
           </h3>
           
           {/* Rating */}
-          <div className="mt-1 flex items-center">
+          <div className="mt-0.5 sm:mt-1 flex items-center">
             <div className="flex items-center">
               {Array.from({ length: 5 }).map((_, i) => (
                 <svg
                   key={i}
-                  className={`h-3 w-3 sm:h-4 sm:w-4 ${
+                  className={`h-2.5 w-2.5 sm:h-4 sm:w-4 ${
                     i < Math.floor(product.rating) 
                       ? "text-yellow-400" 
                       : i < product.rating 
@@ -194,16 +211,16 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
                 </svg>
               ))}
             </div>
-            <span className="ml-1 text-[10px] sm:text-xs text-gray-500">({product.reviewCount})</span>
+            <span className="ml-1 text-[8px] sm:text-xs text-gray-500">({product.reviewCount})</span>
           </div>
           
           {/* Available colors */}
           {product.colors && product.colors.length > 0 && (
-            <div className="mt-1 sm:mt-1.5 flex items-center gap-1 sm:gap-1.5">
+            <div className="mt-0.5 sm:mt-1.5 flex items-center gap-0.5 sm:gap-1.5">
               {product.colors.map((color) => (
                 <div
                   key={color}
-                  className="h-4 w-4 sm:h-5 sm:w-5 rounded-full border-2 border-black shadow-sm"
+                  className="h-3 w-3 sm:h-5 sm:w-5 rounded-full border border-black sm:border-2 shadow-sm"
                   style={{ 
                     backgroundColor: color === 'natural' ? '#e8dcc2' : color
                   }}
@@ -214,25 +231,25 @@ export default function ProductCard({ product, onQuickView }: ProductCardProps) 
           )}
           
           {/* Price */}
-          <div className="mt-1.5 sm:mt-2 pt-1.5 sm:pt-2 border-t border-black flex items-center">
+          <div className="mt-1 sm:mt-2 pt-1 sm:pt-2 border-t border-black flex items-center">
             {hasDiscount ? (
               <>
-                <span className="text-sm sm:text-base md:text-xl font-black text-red-600 mr-1.5 sm:mr-2">
+                <span className="text-xs sm:text-base md:text-xl font-black text-red-600 mr-1 sm:mr-2">
                   ${displayPrice.toFixed(2)}
                 </span>
-                <span className="text-xs sm:text-sm text-gray-500 line-through">
+                <span className="text-[9px] sm:text-sm text-gray-500 line-through">
                   ${product.price.toFixed(2)}
                 </span>
               </>
             ) : (
-              <span className="text-sm sm:text-base md:text-xl font-black text-black">
+              <span className="text-xs sm:text-base md:text-xl font-black text-black">
                 ${displayPrice.toFixed(2)}
               </span>
             )}
           </div>
           
           {/* Corner decorative element for brutalism */}
-          <div className="absolute -bottom-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 bg-black transform rotate-45"></div>
+          <div className="absolute -bottom-1 -right-1 w-1.5 h-1.5 sm:w-3 sm:h-3 bg-black transform rotate-45 group-hover:bg-yellow-300 transition-colors duration-300"></div>
         </div>
       </div>
     </div>

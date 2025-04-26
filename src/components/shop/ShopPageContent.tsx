@@ -135,13 +135,25 @@ export default function ShopPageContent() {
 
   return (
     <div className="w-full bg-white">
-      {/* Hero section */}
-      <div className="w-full bg-black border-b-4 border-yellow-300 py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tighter mb-2 sm:mb-4">
-            SHOP ALL PRODUCTS
-          </h1>
-          <p className="text-white/80 text-base sm:text-lg max-w-2xl mx-auto">
+      {/* Hero section - enhanced with brutalist elements */}
+      <div className="w-full bg-black border-b-8 border-yellow-300 py-10 sm:py-16 relative overflow-hidden">
+        {/* Diagonal lines background pattern */}
+        <div className="absolute inset-0 z-0 opacity-15">
+          <div className="h-full w-full bg-[repeating-linear-gradient(45deg,white,white_1px,transparent_1px,transparent_10px)]"></div>
+        </div>
+        
+        {/* Decorative elements */}
+        <div className="absolute top-10 right-10 w-20 h-20 border-4 border-yellow-300 opacity-20 rotate-12"></div>
+        <div className="absolute bottom-10 left-10 w-16 h-16 border-4 border-yellow-300 opacity-20 -rotate-12"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+          <div className="relative inline-block mb-4">
+            <div className="absolute -inset-2 bg-yellow-300 rotate-1 z-0"></div>
+            <h1 className="relative text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tighter px-6 py-3 bg-black border-4 border-yellow-300 z-10 shadow-[6px_6px_0px_0px_rgba(253,224,71,0.8)]">
+              SHOP ALL PRODUCTS
+            </h1>
+          </div>
+          <p className="text-white/90 text-base sm:text-lg max-w-2xl mx-auto font-medium">
             Browse our complete collection of premium hats and headwear. 
             Find the perfect style to express yourself.
           </p>
@@ -149,16 +161,16 @@ export default function ShopPageContent() {
       </div>
 
       {/* Shop content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-6 sm:py-12">
         <div className="flex flex-col md:flex-row gap-6 md:gap-8">
-          {/* Mobile filters toggle */}
-          <div className="md:hidden flex items-center justify-between mb-4">
+          {/* Mobile filters toggle - enhanced */}
+          <div className="md:hidden flex items-center justify-between mb-3">
             <button
               type="button"
-              className="bg-black text-white font-bold py-2 px-4 border-2 border-black hover:bg-yellow-300 hover:text-black transition-colors flex items-center gap-2"
+              className="bg-black text-white font-bold py-1.5 px-3 border-2 border-black hover:bg-yellow-300 hover:text-black transition-colors flex items-center gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
               onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
             >
-              <Filter size={16} />
+              <Filter size={14} />
               {mobileFiltersOpen ? "HIDE FILTERS" : "FILTERS"}
             </button>
             
@@ -177,12 +189,12 @@ export default function ShopPageContent() {
                     });
                     setSortOption("featured");
                   }}
-                  className="text-red-600 mr-4 underline"
+                  className="text-red-600 mr-2 text-xs font-bold underline"
                 >
                   Clear all
                 </button>
               )}
-              <span>{filteredProducts.length} products</span>
+              <span className="bg-black text-white px-2 py-0.5 text-xs font-bold">{filteredProducts.length} products</span>
             </div>
           </div>
 
@@ -190,7 +202,7 @@ export default function ShopPageContent() {
           <div 
             className={`${
               mobileFiltersOpen ? 'block' : 'hidden'
-            } md:block w-full md:w-64 lg:w-72 flex-shrink-0 transition-all duration-300 ease-in-out`}
+            } md:block w-full md:w-64 lg:w-72 flex-shrink-0 transition-all duration-300 ease-in-out mb-4 md:mb-0`}
           >
             <ProductFilters
               collections={collections}
@@ -205,9 +217,9 @@ export default function ShopPageContent() {
           {/* Product grid */}
           <div className="flex-1">
             {/* Desktop results count and sort */}
-            <div className="hidden md:flex justify-between items-center mb-6">
+            <div className="hidden md:flex justify-between items-center mb-8 border-b-2 border-black pb-4">
               <div className="flex items-center">
-                <p className="text-black font-bold">
+                <p className="text-black font-bold bg-yellow-300 px-3 py-1 border-2 border-black">
                   {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
                 </p>
                 {hasActiveFilters && (
@@ -224,9 +236,9 @@ export default function ShopPageContent() {
                       });
                       setSortOption("featured");
                     }}
-                    className="ml-4 text-red-600 underline text-sm font-medium"
+                    className="ml-4 bg-red-600 text-white px-3 py-1 font-bold border-2 border-black hover:bg-red-700 transition-colors"
                   >
-                    Clear all filters
+                    CLEAR ALL FILTERS
                   </button>
                 )}
               </div>
@@ -240,7 +252,7 @@ export default function ShopPageContent() {
 
             {/* Products grid */}
             {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6">
                 {filteredProducts.map((product) => (
                   <ProductCard 
                     key={product.id} 
@@ -250,7 +262,7 @@ export default function ShopPageContent() {
                 ))}
               </div>
             ) : (
-              <div className="bg-gray-50 border-2 border-black p-6 sm:p-8 text-center">
+              <div className="bg-gray-50 border-3 border-black p-6 sm:p-8 text-center">
                 <h3 className="text-xl font-bold mb-2">No products found</h3>
                 <p className="text-gray-600 mb-4">
                   Try adjusting your filters to find what you're looking for.
@@ -268,7 +280,7 @@ export default function ShopPageContent() {
                     });
                     setSortOption("featured");
                   }}
-                  className="bg-black text-white font-bold py-2 px-4 border-2 border-black hover:bg-yellow-300 hover:text-black transition-colors"
+                  className="bg-black text-white font-bold py-2 px-4 border-2 border-black hover:bg-yellow-300 hover:text-black transition-colors shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
                 >
                   RESET FILTERS
                 </button>

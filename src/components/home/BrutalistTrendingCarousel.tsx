@@ -92,10 +92,10 @@ export function BrutalistTrendingCarousel({
     
     // Show toast notification
     toast({
-      title: "Added to cart",
+      title: "ADDED TO CART",
       description: (
         <div className="flex items-center">
-          <div className="w-10 h-10 mr-3 border border-black relative flex-shrink-0">
+          <div className="w-10 h-10 mr-3 border-2 border-black relative flex-shrink-0 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
             <Image 
               src={product.images[0]} 
               alt={product.name} 
@@ -104,8 +104,8 @@ export function BrutalistTrendingCarousel({
             />
           </div>
           <div>
-            <p className="font-medium">{product.name}</p>
-            <p className="text-xs text-gray-500">
+            <p className="font-bold">{product.name}</p>
+            <p className="text-xs font-medium">
               {defaultSize && `Size: ${defaultSize}`} 
               {defaultSize && defaultColor && "・"} 
               {defaultColor && `Color: ${defaultColor}`}
@@ -114,8 +114,8 @@ export function BrutalistTrendingCarousel({
         </div>
       ),
       action: (
-        <Link href="/cart" className="bg-black text-white px-3 py-1 text-xs font-bold hover:bg-yellow-300 hover:text-black transition-colors">
-          VIEW CART
+        <Link href="/cart" className="bg-black text-white px-3 py-1 text-xs font-bold hover:bg-yellow-300 hover:text-black transition-colors uppercase">
+          View Cart
         </Link>
       ),
     });

@@ -103,10 +103,10 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     addItem(product, selectedSize, selectedColor, quantity);
     
     toast({
-      title: "Added to cart!",
+      title: "ADDED TO CART!",
       description: (
         <div className="flex items-center gap-2">
-          <div className="relative h-10 w-10 overflow-hidden rounded">
+          <div className="relative h-10 w-10 overflow-hidden border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
             <Image
               src={product.images[0]}
               alt={product.name}
@@ -114,13 +114,13 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
               className="object-cover"
             />
           </div>
-          <span>{product.name}</span>
+          <span className="font-bold">{product.name}</span>
         </div>
       ),
       action: (
         <Link
           href="/cart"
-          className="bg-black text-white px-3 py-1 text-xs rounded hover:bg-gray-800"
+          className="bg-black text-white px-3 py-1 text-xs font-bold hover:bg-yellow-300 hover:text-black transition-colors uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] border-2 border-black"
         >
           View Cart
         </Link>

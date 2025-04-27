@@ -80,7 +80,7 @@ export function BrutalistFeaturedCollections({
   };
 
   return (
-    <section className="relative w-full bg-black py-24 px-6 overflow-hidden">
+    <section className="relative w-full bg-black py-12 sm:py-16 md:py-24 px-4 sm:px-6 overflow-hidden">
       {/* Diagonal lines background pattern - brutalist style */}
       <div className="absolute inset-0 z-0 opacity-15">
         <div className="h-full w-full bg-[repeating-linear-gradient(45deg,white,white_1px,transparent_1px,transparent_10px)]"></div>
@@ -92,7 +92,7 @@ export function BrutalistFeaturedCollections({
       
       {/* Section title with brutalist style - enhanced and centered */}
       <motion.div 
-        className="max-w-7xl mx-auto mb-20 relative z-10 flex justify-center"
+        className="max-w-7xl mx-auto mb-10 sm:mb-16 md:mb-20 relative z-10 flex justify-center"
         variants={titleVariants}
         initial="hidden"
         animate={isLoaded ? "visible" : "hidden"}
@@ -100,10 +100,10 @@ export function BrutalistFeaturedCollections({
         <div className="relative inline-block">
           <div className="absolute -inset-2 bg-yellow-300 rotate-2 z-0"></div>
           <div className="absolute -inset-2 bg-black -rotate-1 translate-x-1 translate-y-1 z-0"></div>
-          <h2 className="relative inline-block text-5xl md:text-7xl font-black text-white uppercase tracking-tighter px-6 py-4 bg-black border-4 border-yellow-300 z-10 shadow-[6px_6px_0px_0px_rgba(253,224,71,0.8)]">
+          <h2 className="relative inline-block text-3xl sm:text-5xl md:text-7xl font-black text-white uppercase tracking-tighter px-4 sm:px-6 py-3 sm:py-4 bg-black border-4 border-yellow-300 z-10 shadow-[6px_6px_0px_0px_rgba(253,224,71,0.8)]">
             {title}
             <div 
-              className="absolute -top-5 -right-5 bg-yellow-300 text-black font-black text-base uppercase px-4 py-2 rotate-[-6deg] border-3 border-black z-20 inline-block shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)]"
+              className="absolute -top-4 -right-4 sm:-top-5 sm:-right-5 bg-yellow-300 text-black font-black text-xs sm:text-base uppercase px-2 sm:px-4 py-1 sm:py-2 rotate-[-6deg] border-2 sm:border-3 border-black z-20 inline-block shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)]"
             >
               FEATURED
             </div>
@@ -111,9 +111,9 @@ export function BrutalistFeaturedCollections({
         </div>
       </motion.div>
       
-      {/* Collections grid with brutalist styling - exactly 3 cards per row with optimized responsive layout */}
+      {/* Collections grid with brutalist styling - optimized responsive layout */}
       <motion.div 
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-8 max-w-7xl mx-auto relative z-10"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto relative z-10"
         variants={containerVariants}
         initial="hidden"
         animate={isLoaded ? "visible" : "hidden"}
@@ -130,7 +130,7 @@ export function BrutalistFeaturedCollections({
             {/* Collection card with thick border and perfect hover animation */}
             <Link 
               href={`/collection/${collection.slug}`}
-              className="relative block h-[400px] md:h-[450px] overflow-hidden transition-all duration-300 transform-gpu will-change-transform"
+              className="relative block h-[350px] sm:h-[400px] md:h-[450px] overflow-hidden transition-all duration-300 transform-gpu will-change-transform"
             >
               {/* Offset background for brutalist effect */}
               <div className="absolute inset-0 border-4 border-black bg-yellow-300 transform translate-x-2 translate-y-2 z-0"></div>
@@ -155,33 +155,33 @@ export function BrutalistFeaturedCollections({
                   ></div>
                 </div>
                 
-                {/* Collection information - perfect animation with custom easing */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 bg-white border-t-4 border-black transform translate-y-[calc(100%-4.5rem)] group-hover:translate-y-0 transition-transform duration-400 ease-[cubic-bezier(0.16,1.1,0.3,1)] will-change-transform">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-2xl font-black uppercase text-black tracking-tighter truncate pr-2">{collection.name}</h3>
-                    <div className="flex-shrink-0 bg-black text-white p-2 border-2 border-black transform rotate-0 group-hover:rotate-45 group-hover:bg-yellow-300 group-hover:text-black transition-all duration-300 ease-out will-change-transform">
-                      <ArrowUpRight size={20} />
+                {/* Collection information - responsive text sizes and better spacing for mobile */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 bg-white border-t-4 border-black transform translate-y-[calc(100%-4.5rem)] group-hover:translate-y-0 transition-transform duration-400 ease-[cubic-bezier(0.16,1.1,0.3,1)] will-change-transform">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <h3 className="text-xl sm:text-2xl font-black uppercase text-black tracking-tighter truncate pr-2">{collection.name}</h3>
+                    <div className="flex-shrink-0 bg-black text-white p-1.5 sm:p-2 border-2 border-black transform rotate-0 group-hover:rotate-45 group-hover:bg-yellow-300 group-hover:text-black transition-all duration-300 ease-out will-change-transform">
+                      <ArrowUpRight size={18} />
                     </div>
                   </div>
-                  <p className="text-black font-mono text-sm mb-4 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity duration-300">{collection.description}</p>
-                  <button className="inline-flex bg-black text-white px-3 py-1.5 font-bold tracking-tight uppercase transform translate-x-0 group-hover:translate-x-2 transition-all duration-300 ease-out will-change-transform hover:bg-yellow-300 hover:text-black border-2 border-black items-center text-sm">
+                  <p className="text-black font-mono text-sm mb-3 sm:mb-4 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity duration-300">{collection.description}</p>
+                  <button className="inline-flex bg-black text-white px-2 sm:px-3 py-1 sm:py-1.5 font-bold tracking-tight uppercase transform translate-x-0 group-hover:translate-x-2 transition-all duration-300 ease-out will-change-transform hover:bg-yellow-300 hover:text-black border-2 border-black items-center text-xs sm:text-sm">
                     View Collection
-                    <ChevronRight className="ml-1 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
+                    <ChevronRight className="ml-1 w-3 h-3 sm:w-4 sm:h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
                   </button>
                 </div>
                 
-                {/* Collection badge/sticker effect - perfect animation */}
+                {/* Collection badge/sticker effect */}
                 {collection.badge && (
                   <div 
-                    className="absolute top-6 right-6 bg-yellow-300 text-black px-4 py-2 font-black text-xl uppercase tracking-tighter border-3 border-black transform rotate-[10deg] group-hover:rotate-[5deg] group-hover:scale-110 z-10 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] will-change-transform flex items-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]"
+                    className="absolute top-4 right-4 sm:top-6 sm:right-6 bg-yellow-300 text-black px-3 py-1 sm:px-4 sm:py-2 font-black text-base sm:text-xl uppercase tracking-tighter border-2 sm:border-3 border-black transform rotate-[10deg] group-hover:rotate-[5deg] group-hover:scale-110 z-10 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] will-change-transform flex items-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]"
                   >
                     {collection.badge}
-                    <BadgeCheck className="w-5 h-5 text-black" />
+                    <BadgeCheck className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
                   </div>
                 )}
               </div>
               
-              {/* Pulse effect on hover */}
+              {/* Pulse effect on hover - only show on hover */}
               {hoveredItem === collection.id && (
                 <motion.div 
                   className="absolute inset-0 bg-yellow-300 rounded-full opacity-0 z-5"
@@ -198,9 +198,9 @@ export function BrutalistFeaturedCollections({
         ))}
       </motion.div>
       
-      {/* View all collections link with brutalist design */}
+      {/* View all collections link with brutalist design - better touch target for mobile */}
       <motion.div 
-        className="flex justify-center mt-20"
+        className="flex justify-center mt-12 sm:mt-16 md:mt-20"
         variants={linkVariants}
         initial="hidden"
         animate={isLoaded ? "visible" : "hidden"}
@@ -209,11 +209,11 @@ export function BrutalistFeaturedCollections({
           href="/collections" 
           className="relative group inline-flex items-center"
         >
-          <div className="bg-black text-white px-8 py-4 font-black uppercase flex items-center gap-2 border-4 border-yellow-300 transform group-hover:translate-x-[-6px] group-hover:translate-y-[-6px] group-hover:bg-yellow-300 group-hover:text-black transition-all duration-300 shadow-[5px_5px_0px_0px_rgba(253,224,71,0.8)]">
-            <span>View All Collections</span>
-            <Plus size={20} className="transform group-hover:rotate-90 transition-transform duration-300" />
+          <div className="bg-black text-white px-6 sm:px-8 py-3 sm:py-4 font-black uppercase flex items-center gap-2 border-3 sm:border-4 border-yellow-300 transform group-hover:translate-x-[-6px] group-hover:translate-y-[-6px] group-hover:bg-yellow-300 group-hover:text-black transition-all duration-300 shadow-[5px_5px_0px_0px_rgba(253,224,71,0.8)]">
+            <span className="text-sm sm:text-base">View All Collections</span>
+            <Plus size={18} className="transform group-hover:rotate-90 transition-transform duration-300" />
           </div>
-          <div className="absolute inset-0 border-4 border-black translate-x-3 translate-y-3 -z-10 bg-yellow-300"></div>
+          <div className="absolute inset-0 border-3 sm:border-4 border-black translate-x-3 translate-y-3 -z-10 bg-yellow-300"></div>
         </Link>
       </motion.div>
     </section>

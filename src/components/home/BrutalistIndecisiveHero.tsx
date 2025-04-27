@@ -115,16 +115,16 @@ export function BrutalistIndecisiveHero({
   };
   
   return (
-    <div className="relative w-full h-[500px] md:h-[700px] overflow-hidden border-b-4 border-black bg-white">
+    <div className="relative w-full h-[600px] md:h-[700px] overflow-hidden border-b-4 border-black bg-white">
       {/* Background diagonal pattern */}
       <div className="absolute inset-0 opacity-5 hidden md:block">
         <div className="h-full w-full bg-[repeating-linear-gradient(45deg,black,black_1px,transparent_1px,transparent_15px)]"></div>
       </div>
 
-      {/* Main hero grid - 3 column layout on desktop, stacked on mobile */}
+      {/* Main hero grid - optimized for mobile and desktop layout */}
       <div className="grid grid-cols-1 md:grid-cols-3 h-full">
         
-        {/* Left column - First hat option */}
+        {/* Left column - First hat option - hidden on mobile */}
         <motion.div 
           className="relative overflow-hidden h-[0px] md:h-full border-r-0 md:border-r-4 border-black md:block hidden" 
           onMouseEnter={() => setHoverSide('left')}
@@ -164,8 +164,8 @@ export function BrutalistIndecisiveHero({
           </div>
         </motion.div>
         
-        {/* Middle column - Black with text */}
-        <div className="relative bg-black flex flex-col items-center justify-center px-4 md:px-6 h-full text-center border-b-4 md:border-b-0 md:border-r-4 border-black overflow-hidden col-span-1 md:col-span-1">
+        {/* Middle column - Black with text - full width on mobile */}
+        <div className="relative bg-black flex flex-col items-center justify-center px-4 md:px-6 py-12 md:py-0 h-full text-center border-b-4 md:border-b-0 md:border-r-4 border-black overflow-hidden col-span-1 md:col-span-1">
           {/* Noisy background texture */}
           <div className="absolute inset-0 opacity-10">
             <Image
@@ -177,10 +177,6 @@ export function BrutalistIndecisiveHero({
             />
           </div>
 
-          {/* Corner design elements */}
-          <div className="absolute top-0 left-0 w-20 h-20 border-r-4 border-b-4 border-yellow-300 opacity-50"></div>
-          <div className="absolute bottom-0 right-0 w-20 h-20 border-l-4 border-t-4 border-yellow-300 opacity-50"></div>
-          
           {/* Replaced Premium Headwear with Can't Decide Badge */}
           <motion.div 
             className="mb-6 md:mb-8 relative z-10"
@@ -205,7 +201,7 @@ export function BrutalistIndecisiveHero({
               <div className="absolute -inset-1 bg-yellow-300 rotate-1 z-0"></div>
               <div className="absolute -inset-1 bg-black -rotate-1 translate-x-1 translate-y-1 z-0"></div>
               
-              <h1 className="relative text-white text-center font-black text-5xl md:text-7xl tracking-tighter leading-none mb-3 md:mb-4 px-4 py-2 bg-black z-10 border-2 border-white">
+              <h1 className="relative text-white text-center font-black text-4xl sm:text-5xl md:text-7xl tracking-tighter leading-none mb-3 md:mb-4 px-4 py-2 bg-black z-10 border-2 border-white">
                 {title}
                 <span className="inline-flex ml-2 align-top">
                   <BadgeCheck className="w-6 h-6 md:w-8 md:h-8 text-black fill-yellow-300 stroke-[3px]" />
@@ -222,27 +218,11 @@ export function BrutalistIndecisiveHero({
             animate={isLoaded ? "visible" : "hidden"}
           >
             <p className="mb-3">{subtitle}</p>
-            
-            {/* Value props simplified to single row on desktop and mobile */}
-            <div className="flex flex-row items-center justify-center gap-4 mt-2">
-              <div className="flex items-center">
-                <div className="w-5 h-5 md:w-6 md:h-6 bg-yellow-300 flex items-center justify-center mr-2 border-2 border-black">
-                  <span className="text-black font-bold text-xs md:text-sm">✓</span>
-                </div>
-                <span className="text-white text-xs md:text-sm font-medium">Premium Quality</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-5 h-5 md:w-6 md:h-6 bg-yellow-300 flex items-center justify-center mr-2 border-2 border-black">
-                  <span className="text-black font-bold text-xs md:text-sm">✓</span>
-                </div>
-                <span className="text-white text-xs md:text-sm font-medium">Free Shipping</span>
-              </div>
-            </div>
           </motion.div>
           
-          {/* Mobile hat options display */}
-          <div className="flex w-full space-x-6 justify-center mb-8 md:hidden">
-            <div className="relative w-[140px]">
+          {/* Mobile hat options display - improved layout */}
+          <div className="flex w-full space-x-4 justify-center mb-8 md:hidden">
+            <div className="relative w-[130px] h-[130px]">
               <div className="absolute -top-3 left-0 right-0 flex justify-center z-30">
                 <div className="bg-yellow-300 text-black font-mono font-bold text-[10px] py-1 px-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)] rotate-[-2deg] border-2 border-black">
                   OPTION A
@@ -250,7 +230,7 @@ export function BrutalistIndecisiveHero({
               </div>
               <Link 
                 href={leftHat.link}
-                className="inline-block relative w-[140px] h-[140px] overflow-hidden border-3 border-white shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)]"
+                className="inline-block relative w-[130px] h-[130px] overflow-hidden border-3 border-white shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)]"
               >
                 <div className="absolute inset-0 bg-black/30 mix-blend-multiply z-10"></div>
                 <Image
@@ -258,15 +238,16 @@ export function BrutalistIndecisiveHero({
                   alt={leftHat.name}
                   fill
                   className="object-cover object-center"
+                  sizes="130px"
                   priority
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-black text-white text-xs font-bold py-2 text-center z-20 border-t-2 border-white group hover:bg-yellow-300 hover:text-black transition-colors">
+                <div className="absolute bottom-0 left-0 right-0 bg-black/80 text-white text-xs font-bold py-2 text-center z-20 border-t-2 border-white">
                   {leftHat.name}
                 </div>
               </Link>
             </div>
             
-            <div className="relative w-[140px]">
+            <div className="relative w-[130px] h-[130px]">
               <div className="absolute -top-3 left-0 right-0 flex justify-center z-30">
                 <div className="bg-yellow-300 text-black font-mono font-bold text-[10px] py-1 px-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)] rotate-[2deg] border-2 border-black">
                   OPTION B
@@ -274,7 +255,7 @@ export function BrutalistIndecisiveHero({
               </div>
               <Link 
                 href={rightHat.link}
-                className="inline-block relative w-[140px] h-[140px] overflow-hidden border-3 border-white shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)]"
+                className="inline-block relative w-[130px] h-[130px] overflow-hidden border-3 border-white shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)]"
               >
                 <div className="absolute inset-0 bg-black/30 mix-blend-multiply z-10"></div>
                 <Image
@@ -282,36 +263,45 @@ export function BrutalistIndecisiveHero({
                   alt={rightHat.name}
                   fill
                   className="object-cover object-center"
+                  sizes="130px"
                   priority
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-black text-white text-xs font-bold py-2 text-center z-20 border-t-2 border-white group hover:bg-yellow-300 hover:text-black transition-colors">
+                <div className="absolute bottom-0 left-0 right-0 bg-black/80 text-white text-xs font-bold py-2 text-center z-20 border-t-2 border-white">
                   {rightHat.name}
                 </div>
               </Link>
             </div>
           </div>
           
-          {/* Enhanced CTA Button with hover animation */}
-          <motion.div 
-            className="relative mt-2 inline-block z-10"
+          {/* CTA Button - better mobile sizing and touch target */}
+          <motion.div
+            className="relative z-10 mt-2 md:mt-4"
             variants={ctaVariants}
             initial="hidden"
             animate={isLoaded ? "visible" : "hidden"}
           >
-            <Link 
+            <Link
               href={ctaLink}
-              className="group relative overflow-hidden bg-yellow-300 text-black font-black tracking-widest text-base md:text-lg py-4 px-10 md:px-12 border-3 border-black hover:border-white transition-all duration-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.7)] hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] transform hover:-translate-y-1"
+              className="group relative inline-flex px-6 py-3 sm:px-8 sm:py-4 font-black text-white bg-black border-4 border-yellow-300 items-center text-base sm:text-lg"
             >
-              <span className="relative z-10 inline-flex items-center group-hover:text-white transition-colors duration-300">
+              <div className="absolute inset-0 bg-yellow-300 transform scale-x-0 transition-transform origin-left group-hover:scale-x-100 group-hover:origin-right z-0"></div>
+              <span className="relative z-10 group-hover:text-black transition-colors flex items-center">
                 {ctaText}
-                <ChevronRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                <ChevronRight className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
               </span>
-              <span className="absolute inset-0 bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out"></span>
             </Link>
+            
+            {/* Blinking effect */}
+            <motion.div
+              className="absolute -inset-1 border-2 border-white"
+              variants={blinkVariants}
+              initial="hidden"
+              animate={isLoaded ? "visible" : "hidden"}
+            ></motion.div>
           </motion.div>
         </div>
         
-        {/* Right column - Second hat option */}
+        {/* Right column - Second hat option - hidden on mobile */}
         <motion.div 
           className="relative overflow-hidden h-[0px] md:h-full md:block hidden"
           onMouseEnter={() => setHoverSide('right')}
@@ -339,7 +329,7 @@ export function BrutalistIndecisiveHero({
             quality={95}
           />
           
-          {/* Hat name banner - improved button */}
+          {/* Hat name banner */}
           <div className="absolute bottom-8 left-0 right-0 z-20 flex justify-center">
             <Link 
               href={rightHat.link}

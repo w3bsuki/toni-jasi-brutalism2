@@ -4,14 +4,10 @@ import { useRef, useEffect, useState } from 'react';
 import { motion, useAnimationFrame, useMotionValue, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { 
-  ShoppingBag, 
   Instagram,
   Percent, 
-  RotateCcw,
   Users,
-  Bookmark,
   ArrowRight,
-  BadgeCheck
 } from 'lucide-react';
 
 export function BrutalistSignupCarousel() {
@@ -28,6 +24,7 @@ export function BrutalistSignupCarousel() {
     setIsLoaded(true);
   }, []);
   
+  // Simplified to only include the requested 4 items
   const items = [
     { 
       icon: <Users className="w-5 h-5" />, 
@@ -38,7 +35,7 @@ export function BrutalistSignupCarousel() {
     },
     { 
       icon: <Instagram className="w-5 h-5" />, 
-      text: "FOLLOW ON INSTAGRAM", 
+      text: "FOLLOW US ON INSTAGRAM", 
       link: "https://instagram.com",
       highlight: true,
       color: "bg-yellow-300"
@@ -54,39 +51,28 @@ export function BrutalistSignupCarousel() {
       >
         <path d="M19.321 5.562a5.122 5.122 0 0 1-3.664-1.514 5.12 5.12 0 0 1-1.514-3.664h-3.844v12.926c0 1.614-1.312 2.926-2.926 2.926a2.927 2.927 0 0 1-2.927-2.926 2.927 2.927 0 0 1 2.927-2.927c.323 0 .634.052.926.149V6.488a6.963 6.963 0 0 0-.926-.062C3.736 6.426 0 10.163 0 14.8c0 4.636 3.736 8.373 8.373 8.373 4.638 0 8.374-3.737 8.374-8.373V9.146a9.064 9.064 0 0 0 5.316 1.703v-3.844c-.94 0-1.84-.149-2.742-.443z"/>
       </svg>, 
-      text: "FOLLOW ON TIKTOK", 
+      text: "FOLLOW US ON TIKTOK", 
       link: "https://tiktok.com",
       highlight: true,
       color: "bg-yellow-300" 
     },
     { 
       icon: <Percent className="w-5 h-5" />, 
-      text: "10% OFF FIRST ORDER", 
+      text: "GET 15% OFF DISCOUNT", 
       link: "/discount",
+      highlight: true,
       color: "bg-yellow-300" 
-    },
-    { 
-      icon: <Bookmark className="w-5 h-5" />, 
-      text: "LIMITED DROPS", 
-      link: "/collections",
-      color: "bg-yellow-300" 
-    },
-    { 
-      icon: <ShoppingBag className="w-5 h-5" />, 
-      text: "FREE STICKERS", 
-      link: "/stickers",
-      color: "bg-yellow-300"
     }
   ];
 
   // Create duplicate sets of items for seamless looping
-  const duplicatedItems = [...items, ...items, ...items, ...items];
+  const duplicatedItems = [...items, ...items, ...items, ...items, ...items];
   
   // Calculate content width once on mount
   useEffect(() => {
     if (carouselRef.current) {
       // Get width of a single set of items
-      const singleSetWidth = carouselRef.current.scrollWidth / 4;
+      const singleSetWidth = carouselRef.current.scrollWidth / 5;
       contentWidth.current = singleSetWidth;
       
       // Start with x offset at exactly -1 set width for seamless loop
@@ -132,10 +118,11 @@ export function BrutalistSignupCarousel() {
 
   return (
     <motion.div 
-      className="bg-black py-5 relative overflow-hidden"
+      className="bg-black py-6 relative overflow-hidden"
       style={{ 
         margin: 0,
-        padding: '1.25rem 0'
+        paddingTop: '1.75rem',
+        paddingBottom: '1.75rem'
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -143,12 +130,13 @@ export function BrutalistSignupCarousel() {
       initial="hidden"
       animate={isLoaded ? "visible" : "hidden"}
     >
-      {/* Background pattern - removed repeating white lines */}
+      {/* Background pattern - subtle diagonal lines */}
       <div className="absolute inset-0 opacity-5">
-        <div className="h-full w-full"></div>
+        <div className="h-full w-full bg-[repeating-linear-gradient(45deg,white,white_1px,transparent_1px,transparent_10px)]"></div>
       </div>
       
-      {/* Remove all decorative elements */}
+      {/* Decorative element - only yellow border on top for consistency */}
+      <div className="absolute top-0 left-0 w-full h-2 bg-yellow-300"></div>
       
       <div className="overflow-hidden" ref={carouselRef}>
         <motion.div 
@@ -163,7 +151,7 @@ export function BrutalistSignupCarousel() {
               rel={item.text.includes("FOLLOW") ? "noopener noreferrer" : undefined}
               onMouseEnter={() => setHoveredIndex(i)} 
               onMouseLeave={() => setHoveredIndex(null)}
-              className={`inline-flex items-center mx-10 group relative`}
+              className={`inline-flex items-center mx-12 md:mx-16 group relative`}
             >
               <div className={`
                 relative flex items-center
@@ -180,8 +168,8 @@ export function BrutalistSignupCarousel() {
                 
                 {/* Text with potential highlight */}
                 <span className={`
-                  relative text-white group-hover:text-yellow-300 transition-colors
-                  ${item.highlight ? 'font-black' : 'font-medium'}
+                  relative text-white text-sm md:text-base group-hover:text-yellow-300 transition-colors
+                  font-black
                 `}>
                   {item.text}
                   

@@ -178,14 +178,46 @@ export function BrutalistNavbar() {
     >
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between">
-          {/* Left - Logo */}
-          <div className="flex-shrink-1 max-w-[60%] md:max-w-none">
+          {/* Left - Logo and Social Icons */}
+          <div className="flex items-center gap-4">
             <Link 
               href="/" 
               className="text-xl sm:text-2xl font-black tracking-tight text-white relative group truncate block"
             >
               INDECISIVE WEAR
             </Link>
+            
+            {/* Social Media Icons - Moved from right to left */}
+            <div className="hidden md:flex items-center gap-2">
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-yellow-300 text-black p-1.5 border-2 border-black hover:bg-white transition-colors transform hover:-translate-y-0.5 hover:rotate-3 hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                aria-label="Instagram"
+              >
+                <Instagram size={16} strokeWidth={2.5} />
+              </a>
+              
+              <a
+                href="https://tiktok.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-yellow-300 text-black p-1.5 border-2 border-black hover:bg-white transition-colors transform hover:-translate-y-0.5 hover:rotate-[-3deg] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                aria-label="TikTok"
+              >
+                <svg 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="fill-current"
+                >
+                  <path d="M19.321 5.562a5.122 5.122 0 0 1-3.664-1.514 5.12 5.12 0 0 1-1.514-3.664h-3.844v12.926c0 1.614-1.312 2.926-2.926 2.926a2.927 2.927 0 0 1-2.927-2.926 2.927 2.927 0 0 1 2.927-2.927c.323 0 .634.052.926.149V6.488a6.963 6.963 0 0 0-.926-.062C3.736 6.426 0 10.163 0 14.8c0 4.636 3.736 8.373 8.373 8.373 4.638 0 8.374-3.737 8.374-8.373V9.146a9.064 9.064 0 0 0 5.316 1.703v-3.844c-.94 0-1.84-.149-2.742-.443z"/>
+                </svg>
+              </a>
+            </div>
           </div>
 
           {/* Middle - Desktop Navigation */}
@@ -254,38 +286,6 @@ export function BrutalistNavbar() {
           
           {/* Right - Icons and Buttons */}
           <div className="flex items-center justify-end flex-shrink-0 gap-2 md:gap-4">
-            {/* Social Media - Brutalist Style */}
-            <div className="hidden md:flex items-center gap-3">
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white text-black p-1.5 border-2 border-black hover:bg-yellow-300 transition-colors transform hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                aria-label="Instagram"
-              >
-                <Instagram size={16} strokeWidth={2.5} />
-              </a>
-              
-              <a
-                href="https://tiktok.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white text-black p-1.5 border-2 border-black hover:bg-yellow-300 transition-colors transform hover:-translate-y-0.5 hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                aria-label="TikTok"
-              >
-                <svg 
-                  width="16" 
-                  height="16" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="fill-current"
-                >
-                  <path d="M19.321 5.562a5.122 5.122 0 0 1-3.664-1.514 5.12 5.12 0 0 1-1.514-3.664h-3.844v12.926c0 1.614-1.312 2.926-2.926 2.926a2.927 2.927 0 0 1-2.927-2.926 2.927 2.927 0 0 1 2.927-2.927c.323 0 .634.052.926.149V6.488a6.963 6.963 0 0 0-.926-.062C3.736 6.426 0 10.163 0 14.8c0 4.636 3.736 8.373 8.373 8.373 4.638 0 8.374-3.737 8.374-8.373V9.146a9.064 9.064 0 0 0 5.316 1.703v-3.844c-.94 0-1.84-.149-2.742-.443z"/>
-                </svg>
-              </a>
-            </div>
-
             {/* Mobile Search Button */}
             <button
               className="md:hidden text-white hover:text-yellow-300 transition-colors p-1.5"
@@ -401,7 +401,12 @@ export function BrutalistNavbar() {
         </div>
       )}
 
-      {/* Mobile Menu */}
+      {/* Mobile menu button */}
+      <div className="flex md:hidden items-center gap-4">
+        {/* Keep this hidden - the original UI uses the cart button from the right side */}
+      </div>
+
+      {/* Mobile menu full screen overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -486,7 +491,7 @@ export function BrutalistNavbar() {
                   </div>
                 ))}
               </nav>
-              
+
               {/* Mobile Shop Button */}
               <div className="mt-8">
                 <Link
@@ -535,6 +540,63 @@ export function BrutalistNavbar() {
                       <path d="M19.321 5.562a5.122 5.122 0 0 1-3.664-1.514 5.12 5.12 0 0 1-1.514-3.664h-3.844v12.926c0 1.614-1.312 2.926-2.926 2.926a2.927 2.927 0 0 1-2.927-2.926 2.927 2.927 0 0 1 2.927-2.927c.323 0 .634.052.926.149V6.488a6.963 6.963 0 0 0-.926-.062C3.736 6.426 0 10.163 0 14.8c0 4.636 3.736 8.373 8.373 8.373 4.638 0 8.374-3.737 8.374-8.373V9.146a9.064 9.064 0 0 0 5.316 1.703v-3.844c-.94 0-1.84-.149-2.742-.443z"/>
                     </svg>
                   </a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile search overlay */}
+      <AnimatePresence>
+        {mobileSearchOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "-100%" }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="fixed inset-0 bg-black z-50 flex flex-col pt-20"
+          >
+            <button
+              onClick={toggleMobileSearch}
+              className="absolute top-4 right-4 p-2 text-white hover:text-yellow-300 transition-colors"
+              aria-label="Close search"
+            >
+              <X size={24} />
+            </button>
+            
+            <div className="px-6 py-8 w-full">
+              <h2 className="text-white text-xl font-bold mb-6">Search Products</h2>
+              <form onSubmit={handleSearchSubmit} className="relative mb-6">
+                <input
+                  type="text"
+                  placeholder="Search for hats..."
+                  className="w-full bg-gray-900 text-white border-2 border-gray-800 p-4 pr-12 focus:outline-none focus:border-yellow-300 font-medium rounded-none"
+                  autoFocus
+                />
+                <button
+                  type="submit"
+                  className="absolute right-0 top-0 h-full px-4 text-white hover:text-yellow-300"
+                  aria-label="Search"
+                >
+                  <Search size={20} />
+                </button>
+              </form>
+              <div className="text-gray-400">
+                <p className="mb-4">Popular searches:</p>
+                <div className="flex flex-wrap gap-2">
+                  {["Snapback", "Dad Hat", "Beanie", "Summer", "Limited"].map((term) => (
+                    <button
+                      key={term}
+                      className="bg-gray-800 text-white px-3 py-1 text-sm hover:bg-yellow-300 hover:text-black transition-colors"
+                      onClick={() => {
+                        // Would typically set search input value
+                        console.log(`Search for ${term}`);
+                      }}
+                    >
+                      {term}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>

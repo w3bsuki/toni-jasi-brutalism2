@@ -282,18 +282,18 @@ export function BrutalistIndecisiveHero({
           >
             <Link
               href={ctaLink}
-              className="group relative inline-flex px-6 py-3 sm:px-8 sm:py-4 font-black text-white bg-black border-4 border-yellow-300 items-center text-base sm:text-lg"
+              className="group relative inline-flex px-6 py-3 sm:px-8 sm:py-4 font-black text-white bg-black border-4 border-yellow-300 items-center text-base sm:text-lg z-20"
             >
-              <div className="absolute inset-0 bg-yellow-300 transform scale-x-0 transition-transform origin-left group-hover:scale-x-100 group-hover:origin-right z-0"></div>
-              <span className="relative z-10 group-hover:text-black transition-colors flex items-center">
+              <div className="absolute inset-0 bg-yellow-300 transform scale-x-0 transition-transform origin-left group-hover:scale-x-100 group-hover:origin-right z-0 pointer-events-none"></div>
+              <span className="relative z-10 group-hover:text-black transition-colors flex items-center pointer-events-none">
                 {ctaText}
                 <ChevronRight className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
               </span>
             </Link>
             
-            {/* Blinking effect */}
+            {/* Blinking effect - moved behind the button and made non-interactive */}
             <motion.div
-              className="absolute -inset-1 border-2 border-white"
+              className="absolute -inset-1 border-2 border-white pointer-events-none z-10"
               variants={blinkVariants}
               initial="hidden"
               animate={isLoaded ? "visible" : "hidden"}

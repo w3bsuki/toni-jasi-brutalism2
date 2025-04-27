@@ -1,11 +1,12 @@
 import { Suspense } from 'react';
 import { Metadata, Viewport } from 'next';
-import { BrutalistHero } from '@/components/home/BrutalistHero';
+import { BrutalistIndecisiveHero } from '@/components/home/BrutalistIndecisiveHero';
 import { BrutalistFeaturedCollections } from '@/components/home/BrutalistFeaturedCollections';
 import { BrutalistTrendingCarousel } from '@/components/home/BrutalistTrendingCarousel';
 import { BrutalistLogoRibbon } from '@/components/home/BrutalistLogoRibbon';
 import { BrutalistTextMarquee } from '@/components/home/BrutalistTextMarquee';
 import { BrutalistSignupCarousel } from '@/components/home/BrutalistSignupCarousel';
+import { BrutalistHatImageCarousel } from '@/components/home/BrutalistHatImageCarousel';
 import { Collection, Product } from '@/lib/types';
 import { getFeaturedCollections, getTrendingProducts } from '@/lib/api';
 
@@ -25,12 +26,22 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Full-width Brutalist Hero section with carousel */}
-      <BrutalistHero 
-        title="ХУЛИГАНКА" 
-        subtitle="Bold designs for the urban explorer. Limited drops, unlimited style."
+      {/* Full-width Brutalist Hero section with two hat options */}
+      <BrutalistIndecisiveHero 
+        title="INDECISIVE WEAR" 
+        subtitle="Two options. One decision. No regrets."
         ctaText="SHOP NOW"
-        ctaLink="/collection/bucket-hats"
+        ctaLink="/shop"
+        leftHat={{
+          name: "Classic Baseball Cap",
+          image: "/images/hats/placeholder1.jpg",
+          link: "/product/classic-baseball-cap"
+        }}
+        rightHat={{
+          name: "Vintage Dad Hat",
+          image: "/images/hats/placeholder.jpg",
+          link: "/product/vintage-dad-hat"
+        }}
       />
       
       {/* Signup Carousel */}
@@ -47,11 +58,18 @@ export default async function Home() {
 
       {/* Brutalist Text Marquee */}
       <BrutalistTextMarquee 
-        text="ХУЛИГАНКА"
+        text="INDECISIVE WEAR"
         bgColor="bg-black"
         textColor="text-yellow-300"
         borderColor="border-yellow-300"
         speed={80}
+      />
+      
+      {/* Hat Image Carousel - before Trending Products */}
+      <BrutalistHatImageCarousel 
+        title="HAT GALLERY"
+        speed={30}
+        direction="left"
       />
 
       {/* Brutalist Trending Products Carousel */}

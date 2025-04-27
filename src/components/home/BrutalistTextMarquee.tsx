@@ -64,7 +64,15 @@ export function BrutalistTextMarquee({
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="relative w-full overflow-hidden" style={{ height: '60px' }}>
+      {/* Diagonal pattern for brutalist style */}
+      <div className="absolute inset-0 w-full h-full opacity-10 pointer-events-none z-0" 
+        style={{ 
+          backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, currentColor 10px, currentColor 11px)',
+          backgroundSize: '30px 30px'
+        }} 
+      />
+      
+      <div className="relative w-full overflow-hidden" style={{ height: '70px' }}>
         <div 
           className={`absolute flex whitespace-nowrap animate-marquee ${isPaused ? 'animate-paused' : ''} items-center justify-center h-full`}
           style={{ animationDuration: `${duration}s` }}
@@ -72,16 +80,18 @@ export function BrutalistTextMarquee({
           {items.map((_, index) => (
             <div key={index} className="flex items-center h-full">
               <button 
-                className="outline-none focus:outline-none mx-10"
+                className="outline-none focus:outline-none mx-10 relative group"
                 onClick={() => setShowModal(true)}
               >
-                <span className="text-3xl font-black tracking-tighter cursor-pointer hover:text-white transition-colors duration-300">
+                <span className="text-3xl font-black tracking-tighter cursor-pointer group-hover:text-white transition-colors duration-300 relative z-10">
                   {text}
                 </span>
+                {/* Hover effect underline */}
+                <span className="absolute -bottom-1 left-0 w-0 h-1 bg-white group-hover:w-full transition-all duration-300 ease-in-out"></span>
               </button>
               
               {/* Yellow dot separator with perfect alignment */}
-              <div className="inline-block w-4 h-4 bg-yellow-300 rounded-full flex-shrink-0" />
+              <div className="inline-block w-4 h-4 bg-yellow-300 rounded-none flex-shrink-0 rotate-45 shadow-[2px_2px_0_0_rgba(255,255,255,0.3)]" />
             </div>
           ))}
         </div>
@@ -115,22 +125,22 @@ export function BrutalistTextMarquee({
 
       {/* Instagram Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[1000] p-4 overflow-y-auto" onClick={() => setShowModal(false)}>
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[1000] p-4 overflow-y-auto" onClick={() => setShowModal(false)}>
           <div 
-            className="bg-white max-w-xl w-full rounded-none border-4 border-black max-h-[90vh] overflow-hidden shadow-[8px_8px_0_0_#000]" 
+            className="bg-white max-w-xl w-full rounded-none border-4 border-black max-h-[90vh] overflow-hidden shadow-[12px_12px_0_0_rgba(253,224,71,0.7)]" 
             onClick={e => e.stopPropagation()}
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between p-5 border-b-4 border-black bg-yellow-300">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-black text-yellow-300 flex items-center justify-center">
+                <div className="w-10 h-10 bg-black text-yellow-300 flex items-center justify-center transform rotate-2">
                   <Instagram className="w-7 h-7" />
                 </div>
                 <h2 className="text-2xl font-black uppercase tracking-tight">ХУЛИГАНКА</h2>
               </div>
               <button 
                 onClick={() => setShowModal(false)} 
-                className="w-10 h-10 flex items-center justify-center bg-black text-white hover:bg-white hover:text-black transition-colors border-2 border-black"
+                className="w-10 h-10 flex items-center justify-center bg-black text-white hover:bg-yellow-300 hover:text-black transition-colors border-2 border-black shadow-[2px_2px_0_0_rgba(255,255,255,0.5)]"
                 aria-label="Close Instagram modal"
               >
                 <X size={24} />
@@ -180,11 +190,13 @@ export function BrutalistTextMarquee({
                   rel="noopener noreferrer" 
                   className="relative inline-block group w-full"
                 >
-                  <div className="bg-black text-white p-4 font-black text-lg tracking-tight uppercase flex items-center justify-center gap-3 group-hover:translate-x-[-4px] group-hover:translate-y-[-4px] transition-transform duration-200 border-4 border-black">
+                  <div className="relative bg-black text-yellow-300 p-4 font-black text-lg tracking-tight uppercase flex items-center justify-center gap-3 group-hover:translate-x-[-4px] group-hover:translate-y-[-4px] transition-transform duration-200 border-4 border-black z-10">
                     <Instagram size={24} />
                     <span>FOLLOW @ХУЛИГАНКА</span>
+                    {/* Hidden fill animation */}
+                    <span className="absolute inset-0 bg-yellow-300 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out -z-10"></span>
                   </div>
-                  <div className="absolute inset-0 bg-yellow-300 translate-x-2 translate-y-2 -z-10"></div>
+                  <div className="absolute inset-0 bg-yellow-300 translate-x-3 translate-y-3 -z-10"></div>
                 </Link>
               </div>
             </div>

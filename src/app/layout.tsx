@@ -9,6 +9,7 @@ import { CartProvider } from "@/hooks/CartProvider";
 import { ClientInitScript } from "@/components/ClientInitScript";
 import { Suspense } from "react";
 import { Analytics } from "@/components/analytics";
+import CookieConsentWrapper from "@/components/ui/CookieConsentWrapper";
 
 // Preload and optimize font loading
 const inter = Inter({ 
@@ -76,6 +77,9 @@ export default function RootLayout({
             </Suspense>
             
             <Toaster />
+            
+            {/* Cookie Consent Banner */}
+            <CookieConsentWrapper />
             
             {/* Performance monitoring */}
             <Analytics />

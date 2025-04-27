@@ -150,169 +150,193 @@ export function BrutalistTrendingCarousel({
       
       {/* Content container */}
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section heading with yellow highlight */}
-        <div className="mb-12 flex justify-between items-end">
-          <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter relative inline-block">
-            {title}
-            <div className="absolute h-4 w-full bg-yellow-300 -bottom-1 left-0 z-0"></div>
-          </h2>
+        {/* Section heading with yellow highlight - improved and centered */}
+        <div className="mb-14 flex flex-col items-center">
+          <div className="relative inline-block">
+            <div className="absolute -inset-2 bg-yellow-300 -rotate-1 z-0"></div>
+            <div className="absolute -inset-2 bg-black rotate-1 translate-x-1 translate-y-1 z-0"></div>
+            <h2 className="relative text-5xl md:text-6xl font-black uppercase tracking-tighter bg-white px-6 py-3 border-4 border-black z-10 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              {title}
+              <div className="absolute -top-4 -right-4 bg-red-600 text-white font-bold text-sm px-3 py-1.5 rotate-[6deg] border-2 border-black z-20 flex items-center shadow-[2px_2px_0px_0px_rgba(0,0,0,0.3)]">
+                <Star className="w-4 h-4 mr-1.5 fill-yellow-300" /> HOT
+              </div>
+            </h2>
+          </div>
           
-          {/* Pagination indicator - brutalist style */}
-          <div className="hidden md:flex items-center gap-2 text-xl font-mono">
-            <span className="font-black">{currentSlide + 1}</span>
+          {/* Pagination indicator moved below title */}
+          <div className="mt-4 flex items-center gap-2 text-xl bg-black text-white px-4 py-2 font-black border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+            <span className="font-black text-yellow-300">{currentSlide + 1}</span>
             <span>/</span>
             <span>{totalSlides}</span>
           </div>
         </div>
         
-        {/* Navigation controls - brutalist style */}
-        <div className="flex justify-end mb-6 gap-3">
+        {/* Products carousel with side controls */}
+        <div className="relative" ref={containerRef}>
+          {/* Left navigation control - positioned further outside */}
           <button 
             onClick={prevSlide}
-            className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-yellow-300 transition-colors"
+            className="absolute left-[-20px] top-1/2 transform -translate-y-1/2 z-30 w-10 h-16 md:w-12 md:h-20 border-4 border-black bg-white hover:bg-yellow-300 transition-colors flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
             aria-label="Previous products"
           >
             <ChevronLeft size={24} />
           </button>
           
+          <div className="overflow-hidden mx-auto" style={{ width: 'calc(100% - 100px)', margin: '0 auto' }}>
+            <motion.div
+              className="flex"
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: isLoaded ? 1 : 0,
+                x: `-${currentSlide * 100}%`
+              }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+            >
+              {/* Group products into slides with fixed width to prevent overflow */}
+              {Array.from({ length: totalSlides }).map((_, slideIndex) => (
+                <div 
+                  key={slideIndex} 
+                  className="min-w-full"
+                  style={{ width: '100%' }}
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-2">
+                    {products.slice(
+                      slideIndex * slidesPerView, 
+                      slideIndex * slidesPerView + slidesPerView
+                    ).map((product) => (
+                      <div key={product.id} className="group relative">
+                        <Link 
+                          href={`/product/${product.slug}`}
+                          className="block relative border-4 border-black hover:border-yellow-300 bg-white overflow-hidden transition-all duration-300 hover:shadow-[0px_8px_20px_rgba(0,0,0,0.3)]"
+                        >
+                          {/* Product image with overlay effects */}
+                          <div className="relative aspect-square overflow-hidden bg-gray-100">
+                            <Image
+                              src={product.images[0]}
+                              alt={product.name}
+                              fill
+                              className="object-cover object-center grayscale-[30%] group-hover:grayscale-0 transition-all duration-500 ease-out scale-100 group-hover:scale-110 will-change-transform"
+                            />
+                            
+                            {/* Harsh overlay with smoother transition */}
+                            <div className="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity duration-300 ease-in-out"></div>
+                            
+                            {/* Diagonal stripes overlay with hover effect - improved pattern */}
+                            <div 
+                              className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,black_10px,black_15px)] opacity-15 group-hover:opacity-5 mix-blend-multiply pointer-events-none transition-opacity duration-300"
+                            ></div>
+                            
+                            {/* Hover overlay with action buttons */}
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-all duration-300">
+                              <div className="transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out flex gap-3">
+                                <button 
+                                  onClick={(e) => openQuickView(e, product)}
+                                  className="bg-white border-4 border-black py-2 px-4 flex items-center gap-2 hover:bg-yellow-300 hover:text-black transition-colors font-bold uppercase text-sm shadow-[4px_4px_0_0_#000]"
+                                >
+                                  <span>Quick View</span>
+                                </button>
+                                <button 
+                                  onClick={(e) => handleAddToCart(e, product)}
+                                  className="bg-black text-white border-4 border-yellow-300 py-2 px-4 flex items-center gap-2 hover:bg-yellow-300 hover:text-black hover:border-black transition-all font-bold uppercase text-sm shadow-[4px_4px_0_0_#000]"
+                                >
+                                  <ShoppingBag size={18} />
+                                  <span>Add to Cart</span>
+                                </button>
+                              </div>
+                            </div>
+                            
+                            {/* Sale tag if discounted */}
+                            {product.discount && product.discount > 0 && (
+                              <div className="absolute top-4 right-0 bg-red-600 text-white font-black px-5 py-1 text-sm uppercase border-y-2 border-l-2 border-black shadow-[2px_2px_0_0_#000]">
+                                Sale {product.discount}%
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Product info with improved styling */}
+                          <div className="p-5 bg-white border-t-4 border-black">
+                            <div className="flex items-center justify-between mb-2">
+                              <h3 className="font-black uppercase text-lg tracking-tight line-clamp-1">
+                                {product.name}
+                              </h3>
+                              
+                              {/* Wishlist button with better hover effect */}
+                              <button 
+                                onClick={(e) => e.preventDefault()}
+                                className="w-10 h-10 border-2 border-black flex items-center justify-center bg-white hover:bg-black hover:text-white transition-colors" 
+                                aria-label="Add to wishlist"
+                              >
+                                <Heart size={18} className="transform-gpu group-hover:scale-110 transition-transform" />
+                              </button>
+                            </div>
+                            
+                            {/* Product category */}
+                            <div className="mb-2">
+                              <span className="text-xs uppercase font-mono tracking-wider text-gray-500">{product.category}</span>
+                            </div>
+                            
+                            {/* Ratings display */}
+                            <div className="flex items-center mb-3">
+                              {Array.from({ length: 5 }).map((_, i) => (
+                                <Star 
+                                  key={i} 
+                                  size={14} 
+                                  className={`${i < Math.round(product.rating) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} 
+                                />
+                              ))}
+                              <span className="ml-1 text-xs text-gray-500">({product.reviewCount})</span>
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              {formatPrice(product.price, product.discount)}
+                              
+                              {/* Quick view icon with better hover animation */}
+                              <div 
+                                onClick={(e) => openQuickView(e, product)}
+                                className="w-9 h-9 flex items-center justify-center bg-black text-yellow-300 cursor-pointer transform-gpu hover:scale-110 transition-transform"
+                              >
+                                <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform duration-300" />
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                        
+                        {/* NEW tag if product is new - improved styling */}
+                        {product.isNew && (
+                          <div className="absolute top-4 left-4 bg-yellow-300 text-black px-3 py-1.5 font-black text-sm uppercase border-2 border-black transform rotate-[-4deg] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] z-20 group-hover:rotate-[-6deg] group-hover:scale-110 transition-all duration-300">
+                            New
+                          </div>
+                        )}
+                        
+                        {/* FEATURED tag if product is featured */}
+                        {product.isFeatured && (
+                          <div className="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1.5 font-black text-sm uppercase border-2 border-black transform rotate-[-4deg] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] z-20 group-hover:rotate-[-6deg] group-hover:scale-110 transition-all duration-300">
+                            Featured
+                          </div>
+                        )}
+                        
+                        {/* HOT tag for trending products */}
+                        {!product.isNew && !product.isFeatured && (
+                          <div className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1.5 font-black text-sm uppercase border-2 border-black transform rotate-[-4deg] shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] z-20 group-hover:rotate-[-6deg] group-hover:scale-110 transition-all duration-300 flex items-center">
+                            <Star className="w-3 h-3 mr-1 fill-yellow-300" /> Hot
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+          
+          {/* Right navigation control - positioned further outside */}
           <button 
             onClick={nextSlide}
-            className="w-12 h-12 border-4 border-black flex items-center justify-center hover:bg-yellow-300 transition-colors"
+            className="absolute right-[-20px] top-1/2 transform -translate-y-1/2 z-30 w-10 h-16 md:w-12 md:h-20 border-4 border-black bg-white hover:bg-yellow-300 transition-colors flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
             aria-label="Next products"
           >
             <ChevronRight size={24} />
           </button>
-        </div>
-        
-        {/* Products carousel */}
-        <div className="relative overflow-hidden" ref={containerRef}>
-          <motion.div
-            className="flex"
-            initial={{ opacity: 0 }}
-            animate={{ 
-              opacity: isLoaded ? 1 : 0,
-              x: `-${currentSlide * 100}%`
-            }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-          >
-            {/* Group products into slides */}
-            {Array.from({ length: totalSlides }).map((_, slideIndex) => (
-              <div 
-                key={slideIndex} 
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-w-full"
-              >
-                {products.slice(
-                  slideIndex * slidesPerView, 
-                  slideIndex * slidesPerView + slidesPerView
-                ).map((product) => (
-                  <div key={product.id} className="group relative">
-                    <Link 
-                      href={`/product/${product.slug}`}
-                      className="block relative border-4 border-black hover:border-yellow-300 bg-white overflow-hidden transition-all duration-300 hover:shadow-[0px_8px_20px_rgba(0,0,0,0.3)]"
-                    >
-                      {/* Product image with overlay effects */}
-                      <div className="relative aspect-square overflow-hidden bg-gray-100">
-                        <Image
-                          src={product.images[0]}
-                          alt={product.name}
-                          fill
-                          className="object-cover object-center grayscale-[30%] group-hover:grayscale-0 transition-all duration-500 ease-out scale-100 group-hover:scale-105 will-change-transform"
-                        />
-                        
-                        {/* Harsh overlay with smoother transition */}
-                        <div className="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity duration-300 ease-in-out"></div>
-                        
-                        {/* Diagonal stripes overlay with hover effect */}
-                        <div 
-                          className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,black_10px,black_20px)] opacity-20 group-hover:opacity-5 mix-blend-multiply pointer-events-none transition-opacity duration-300"
-                        ></div>
-                        
-                        {/* Hover overlay with action buttons */}
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-all duration-300">
-                          <div className="transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out flex gap-3">
-                            <button 
-                              onClick={(e) => openQuickView(e, product)}
-                              className="bg-white border-4 border-black py-2 px-4 flex items-center gap-2 hover:bg-yellow-300 hover:text-black transition-colors font-bold uppercase text-sm shadow-[4px_4px_0_0_#000]"
-                            >
-                              <span>Quick View</span>
-                            </button>
-                            <button 
-                              onClick={(e) => handleAddToCart(e, product)}
-                              className="bg-black text-white border-4 border-yellow-300 py-2 px-4 flex items-center gap-2 hover:bg-yellow-300 hover:text-black hover:border-black transition-all font-bold uppercase text-sm shadow-[4px_4px_0_0_#000]"
-                            >
-                              <ShoppingBag size={18} />
-                              <span>Add to Cart</span>
-                            </button>
-                          </div>
-                        </div>
-                        
-                        {/* Sale tag if discounted */}
-                        {product.discount && product.discount > 0 && (
-                          <div className="absolute top-4 right-0 bg-red-600 text-white font-black px-5 py-1 text-sm uppercase border-y-2 border-l-2 border-black shadow-[2px_2px_0_0_#000]">
-                            Sale {product.discount}%
-                          </div>
-                        )}
-                      </div>
-                      
-                      {/* Product info with improved styling */}
-                      <div className="p-5 bg-white border-t-4 border-black">
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className="font-black uppercase text-lg tracking-tight line-clamp-1">
-                            {product.name}
-                          </h3>
-                          
-                          {/* Wishlist button with better hover effect */}
-                          <button 
-                            onClick={(e) => e.preventDefault()}
-                            className="w-10 h-10 border-2 border-black flex items-center justify-center bg-white hover:bg-black hover:text-white transition-colors" 
-                            aria-label="Add to wishlist"
-                          >
-                            <Heart size={18} className="transform-gpu group-hover:scale-110 transition-transform" />
-                          </button>
-                        </div>
-                        
-                        {/* Product category */}
-                        <div className="mb-2">
-                          <span className="text-xs uppercase font-mono tracking-wider text-gray-500">{product.category}</span>
-                        </div>
-                        
-                        {/* Ratings display */}
-                        <div className="flex items-center mb-3">
-                          {Array.from({ length: 5 }).map((_, i) => (
-                            <Star 
-                              key={i} 
-                              size={14} 
-                              className={`${i < Math.round(product.rating) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} 
-                            />
-                          ))}
-                          <span className="ml-1 text-xs text-gray-500">({product.reviewCount})</span>
-                        </div>
-                        
-                        <div className="flex items-center justify-between">
-                          {formatPrice(product.price, product.discount)}
-                          
-                          {/* Quick view icon with better hover animation */}
-                          <div 
-                            onClick={(e) => openQuickView(e, product)}
-                            className="w-9 h-9 flex items-center justify-center bg-black text-yellow-300 cursor-pointer transform-gpu hover:scale-110 transition-transform"
-                          >
-                            <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform duration-300" />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                    
-                    {/* NEW tag if product is new */}
-                    {product.isNew && (
-                      <div className="absolute top-4 left-4 bg-yellow-300 text-black px-3 py-1 font-black text-sm uppercase border-2 border-black transform rotate-[-4deg] shadow-[2px_2px_0_0_#000] z-20">
-                        New
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </motion.div>
         </div>
         
         {/* View all products link - brutalist style with yellow hover */}

@@ -82,6 +82,14 @@ module.exports = {
           '80%': { transform: 'translate(1px, 2px)' },
           '90%': { transform: 'translate(-1px, -2px)' },
         },
+        accordionOpen: {
+          from: { height: 0, opacity: 0 },
+          to: { height: "var(--radix-accordion-content-height)", opacity: 1 },
+        },
+        accordionClosed: {
+          from: { height: "var(--radix-accordion-content-height)", opacity: 1 },
+          to: { height: 0, opacity: 0 },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -89,6 +97,8 @@ module.exports = {
         "marquee": "marquee 30s linear infinite",
         "shine": "shine 8s ease-in-out infinite",
         "brutalist-shake": "brutalist-shake 0.5s ease-in-out infinite",
+        accordionOpen: "accordionOpen 300ms ease-out",
+        accordionClosed: "accordionClosed 300ms ease-out",
       },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],

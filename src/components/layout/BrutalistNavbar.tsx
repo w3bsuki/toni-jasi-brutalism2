@@ -58,6 +58,19 @@ const navItems: NavItem[] = [
   { label: "SALE", href: "/sale" },
 ];
 
+// Button glow animation
+const buttonBlinkVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: [0, 0.6, 0],
+    transition: {
+      repeat: Infinity,
+      duration: 2,
+      repeatDelay: 4,
+    }
+  }
+};
+
 export function BrutalistNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileActiveSubmenu, setMobileActiveSubmenu] = useState<string | null>(null);
@@ -295,13 +308,25 @@ export function BrutalistNavbar() {
               <Search size={20} strokeWidth={2.5} />
             </button>
 
-            {/* SHOP Button */}
-            <Link 
-              href="/shop"
-              className="hidden md:block bg-yellow-300 border-4 border-black font-black uppercase text-black tracking-widest px-6 py-2 text-base hover:bg-black hover:text-yellow-300 hover:border-yellow-300 transition-all"
-            >
-              SHOP
-            </Link>
+            {/* SHOP Button with glowing effect */}
+            <div className="hidden md:block relative">
+              <Link 
+                href="/shop"
+                className="relative group z-20 bg-yellow-300 border-4 border-black font-black uppercase text-black tracking-widest px-6 py-2 text-base hover:bg-black hover:text-yellow-300 hover:border-yellow-300 transition-all inline-block"
+              >
+                <span className="relative z-10 pointer-events-none">SHOP</span>
+                {/* Background fill animation on hover */}
+                <span className="absolute inset-0 bg-black transform scale-x-0 transition-transform origin-left duration-300 ease-out group-hover:scale-x-100 z-0"></span>
+              </Link>
+              
+              {/* Glow effect */}
+              <motion.div
+                className="absolute -inset-1 border-2 border-white pointer-events-none z-10"
+                variants={buttonBlinkVariants}
+                initial="hidden"
+                animate="visible"
+              ></motion.div>
+            </div>
             
             {/* Cart Button */}
             <Link
